@@ -7,10 +7,6 @@
 
 #include "False.hpp"
 
-False::False()
-{
-}
-
 False::~False()
 {
 }

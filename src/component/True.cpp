@@ -7,10 +7,6 @@
 
 #include "True.hpp"
 
-True::True()
-{
-}
-
 True::~True()
 {
 }

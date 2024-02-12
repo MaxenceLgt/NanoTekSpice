@@ -16,6 +16,7 @@ ComponentFactory::ComponentFactory()
     this->_creationMap["clock"] = std::make_unique<Clock>();
 }
 
-std::unique_ptr<nts::IComponent> ComponentFactory::createComponent(const std::string &type)
-{
-}
+// std::unique_ptr<nts::IComponent> ComponentFactory::createComponent(const std::string &type)
+// {
+    
+// }

@@ -12,7 +12,7 @@
 namespace nts {
 
     enum Tristate {
-        Undefined = (-true ),
+        Undefined = (- true),
         True = true,
         False = false
     };

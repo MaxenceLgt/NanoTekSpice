@@ -7,10 +7,6 @@
 
 #include "Nand.hpp"
 
-Nand::Nand()
-{
-}
-
 Nand::~Nand()
 {
 }

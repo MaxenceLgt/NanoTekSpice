@@ -11,11 +11,11 @@
     #include <memory>
     #include <string>
     #include <unordered_map>
-    #include "IComponent.hpp"
-    #include "IO.hpp"
-    #include "True.hpp"
-    #include "False.hpp"
-    #include "Clock.hpp"
+    #include "../inheritence/AComponent.hpp"
+    #include "../component/True.hpp"
+    #include "../component/False.hpp"
+    #include "../component/IO.hpp"
+    #include "../component/Clock.hpp"
 
 class ComponentFactory {
     public:         
@@ -23,6 +23,9 @@ class ComponentFactory {
         ~ComponentFactory() {};
     public:
         std::unique_ptr<nts::IComponent> createComponent(const std::string &type);
+        std::unique_ptr<nts::IComponent> createMappedComponent(const std::string &type);
+        std::unordered_map<std::string, std::unique_ptr<nts::IComponent>> getMap() const;
+        void addComponent(const std::string &type, std::unique_ptr<nts::IComponent> component);
     private:
         std::unordered_map<std::string, std::unique_ptr<nts::IComponent>> _creationMap;
 };

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "AComponent.hpp"
+#include "../inheritence/AComponent.hpp"
 
 class Nand : public AComponent {
     public:

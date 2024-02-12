@@ -7,10 +7,14 @@
 
 #pragma once
 
-#include "AComponent.hpp"
+#include "../inheritence/AComponent.hpp"
 
 class Clock : public AComponent {
     public:
-        Clock();
+        Clock() : AComponent(nts::Tristate::Undefined) {};
         ~Clock();
+
+    public:
+        nts::Tristate compute (std::size_t pin);
+        // void simulate(std::size_t tick);
 };

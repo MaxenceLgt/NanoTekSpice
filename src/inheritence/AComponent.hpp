@@ -11,10 +11,15 @@
 #include <vector>
 
 class AComponent : public nts::IComponent {
-    public:
-        AComponent();
+    protected:
+        AComponent(nts::Tristate state);
         ~AComponent();
     
+    public:
+        virtual nts::Tristate compute (std::size_t pin);
+        void simulate(std::size_t tick);
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin);
+
     protected:
         std::vector<nts::IComponent *> _links;
         nts::Tristate _state;

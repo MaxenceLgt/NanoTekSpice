@@ -7,10 +7,14 @@
 
 #pragma once
 
-#include "AComponent.hpp"
+#include "../inheritence/AComponent.hpp"
 
 class True : public AComponent {
     public:
-        True();
+        True() : AComponent(nts::Tristate::True) {};
         ~True();
+    
+    public:
+        nts::Tristate compute (std::size_t pin);
+        //void simulate(std::size_t tick) {};
 };

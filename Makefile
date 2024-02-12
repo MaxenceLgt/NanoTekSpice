@@ -9,10 +9,25 @@ CC 			= 	g++
 
 NAME		=	nanotekspice
 
-SRC			= main.cpp 
+SRC			+= main.cpp
+SRC			+= Circuit.cpp
+SRC			+= ComponentFactory.cpp
+SRC			+= AComponent.cpp
+SRC			+= BluePrint.cpp
+SRC			+= Clock.cpp
+SRC 		+= False.cpp
+SRC			+= IO.cpp
+SRC			+= Nand.cpp
+SRC			+= True.cpp
 
 # for add a new path : VPATH += src/new_path/
-VPATH		=	src/
+VPATH		+=	src/
+VPATH		+=	src/app/
+VPATH		+=	src/component/
+VPATH		+=	src/config/
+VPATH		+=	src/factory/
+VPATH		+=	src/inheritence/
+VPATH		+=	src/parsing/
 
 vpath %.cpp $(VPATH)
 
@@ -20,7 +35,7 @@ BUILD_DIR	=	build
 
 OBJ			=	$(SRC:%.cpp=$(BUILD_DIR)/%.o)
 
-IFLAGS		=	-I ./src
+IFLAGS		=	-I ./src -I src/app/ -I src/component/ -I src/config/ -I src/factory/ -I src/inheritence/ -I src/parsing/
 CFLAGS		=	-Wall -Wextra -Werror $(IFLAGS) -g
 LDFLAGS		=
 CFLAGSTEST += -lcriterion --coverage
