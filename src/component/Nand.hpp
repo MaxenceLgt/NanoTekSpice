@@ -11,6 +11,6 @@
 
 class Nand : public AComponent {
     public:
-        Nand();
+        Nand() {};
         ~Nand();
 };

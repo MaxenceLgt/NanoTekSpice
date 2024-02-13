@@ -6,13 +6,12 @@
 */
 
 #ifndef CIRCUIT_HPP_
-#define CIRCUIT_HPP_
+    #define CIRCUIT_HPP_
 
 class Circuit {
     public:
         Circuit();
         ~Circuit();
-
     protected:
     private:
 };

@@ -11,10 +11,10 @@
 
 class IO : public AComponent {
     public:
-        IO() : AComponent(nts::Tristate::Undefined) {};
+        IO() : AComponent() {};
         ~IO();
 
     public:
-        nts::Tristate compute (std::size_t pin);
-        // void simulate(std::size_t tick);
+        nts::Tristate compute ([[maybe_unused]] std::size_t pin) {return this->_state;};
+        void simulate([[maybe_unused]] std::size_t tick) {};
 };

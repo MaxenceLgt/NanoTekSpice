@@ -12,13 +12,13 @@
 
 class AComponent : public nts::IComponent {
     protected:
-        AComponent(nts::Tristate state);
+        AComponent(nts::Tristate state = nts::Tristate::Undefined) : _state(state) {};
         ~AComponent();
     
     public:
-        virtual nts::Tristate compute (std::size_t pin);
-        void simulate(std::size_t tick);
-        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin);
+        virtual nts::Tristate compute ([[maybe_unused]] std::size_t pin) {return this->_state;};
+        void simulate([[maybe_unused]] std::size_t tick) {};
+        void setLink([[maybe_unused]] std::size_t pin, [[maybe_unused]] nts::IComponent &other, [[maybe_unused]] std::size_t otherPin) {};
 
     protected:
         std::vector<nts::IComponent *> _links;

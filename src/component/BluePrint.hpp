@@ -6,7 +6,7 @@
 */
 
 #ifndef BLUEPRINT_HPP_
-#define BLUEPRINT_HPP_
+    #define BLUEPRINT_HPP_
 
 class BluePrint {
     public:
