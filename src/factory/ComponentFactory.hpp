@@ -16,6 +16,7 @@
     #include "False.hpp"
     #include "IO.hpp"
     #include "Clock.hpp"
+    #include "Nand.hpp"
 
 class ComponentFactory {
     public:         

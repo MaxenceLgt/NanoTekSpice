@@ -11,9 +11,8 @@
 
 class True : public AComponent {
     public:
-        True() : AComponent(nts::Tristate::True) {};
+        True() : AComponent() {};
         ~True();
     public:
-        nts::Tristate compute ([[maybe_unused]] std::size_t pin) {return this->_state;};
-        void simulate([[maybe_unused]] std::size_t tick) {};
+        nts::Tristate compute (std::size_t pin);
 };

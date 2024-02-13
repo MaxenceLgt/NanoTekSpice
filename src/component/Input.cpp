@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-REN-4-1-tekspice-arthur.doriel [WSL: Ubuntu]
 ** File description:
-** Clock
+** IO
 */
 
-#include "Clock.hpp"
+#include "Input.hpp"
 
-Clock::Clock() : AComponent()
+Input::Input()
 {
     this->_actualState = nts::Tristate::Undefined;
     this->_futurState = nts::Tristate::Undefined;
@@ -15,23 +15,18 @@ Clock::Clock() : AComponent()
         this->_links.push_back(nullptr);
 }
 
-Clock::~Clock()
+Input::~Input()
 {
 }
 
-nts::Tristate Clock::compute(std::size_t pin)
+nts::Tristate Input::compute(std::size_t pin)
 {
     (void)pin;
     return this->_actualState;
 }
 
-void Clock::simulate(std::size_t tick)
+void Input::simulate(std::size_t tick)
 {
     (void)tick;
     this->_actualState = this->_futurState;
-
-    if (this->_futurState == nts::Tristate::True)
-        this->_futurState = nts::Tristate::False;
-    else if (this->_futurState == nts::Tristate::False)
-        this->_futurState = nts::Tristate::True;
-}
+};

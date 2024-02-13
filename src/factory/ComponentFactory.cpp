@@ -14,6 +14,7 @@ ComponentFactory::ComponentFactory()
     this->_creationMap["true"] = std::make_shared<True>();
     this->_creationMap["false"] = std::make_shared<False>();
     this->_creationMap["clock"] = std::make_shared<Clock>();
+    this->_creationMap["nand"] = std::make_shared<Nand>();
 }
 
 std::shared_ptr<nts::IComponent> ComponentFactory::createComponent([[maybe_unused]] const std::string &type)

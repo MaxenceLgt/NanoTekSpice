@@ -7,14 +7,12 @@
 
 #pragma once
 
-#include "../inheritence/AComponent.hpp"
+#include "AComponent.hpp"
 
 class False : public AComponent {
     public:
-        False() : AComponent(nts::Tristate::False) {};
+        False();
         ~False();
-
     public:
-        nts::Tristate compute ([[maybe_unused]] std::size_t pin) {return this->_state;};
-        void simulate([[maybe_unused]] std::size_t tick) {};
+        nts::Tristate compute (std::size_t pin) {return nts::Tristate::False;};
 };
