@@ -11,6 +11,9 @@
 
 class Nand : public AComponent {
     public:
-        Nand() {};
+        Nand();
         ~Nand();
+
+    public:
+        nts::Tristate compute(std::size_t pin);
 };

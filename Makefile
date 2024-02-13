@@ -11,8 +11,9 @@ SRC	=	src/main.cpp				\
 		src/component/Clock.cpp		\
 		src/component/False.cpp		\
 		src/component/True.cpp		\
-		src/component/IO.cpp		\
 		src/component/Nand.cpp		\
+		src/component/Output.cpp	\
+		src/component/Input.cpp		\
 		src/factory/ComponentFactory.cpp	\
 		src/inheritence/AComponent.cpp
 
@@ -20,12 +21,14 @@ INCLUDE =	src/app/			\
 			src/component/		\
 			src/factory/		\
 			src/inheritence		\
-			src/parsing			\
+			src/parsing
 
 
-NAME	=	nano
+NAME	=	nanotekspice
 
 CPPFLAGS = $(INCLUDE:%=-I%) -std=c++20 -Wall -Wextra -Werror
+
+CPPFLAGSTEST = -lcriterion --coverage
 
 OBJ	=	$(SRC:.cpp=.o)
 
@@ -39,7 +42,14 @@ clean:
 
 fclean:	clean
 	rm -f $(NAME)
+	rm -f *.gcno
+	rm -f *.gcda
 
 re: fclean all
+
+tests_run:
+	g++ -o nanotekspice \
+	tests/unit_tests.cpp $(CPPFLAGSTEST)
+	-./nanotekspice
 
 .PHONY: all clean fclean re

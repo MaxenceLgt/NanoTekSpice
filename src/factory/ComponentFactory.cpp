@@ -9,8 +9,8 @@
 
 ComponentFactory::ComponentFactory()
 {
-    this->_creationMap["input"] = std::make_shared<IO>();
-    this->_creationMap["output"] = std::make_shared<IO>();
+    this->_creationMap["input"] = std::make_shared<Input>();
+    this->_creationMap["output"] = std::make_shared<Output>();
     this->_creationMap["true"] = std::make_shared<True>();
     this->_creationMap["false"] = std::make_shared<False>();
     this->_creationMap["clock"] = std::make_shared<Clock>();

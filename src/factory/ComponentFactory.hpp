@@ -14,7 +14,8 @@
     #include "AComponent.hpp"
     #include "True.hpp"
     #include "False.hpp"
-    #include "IO.hpp"
+    #include "Input.hpp"
+    #include "Output.hpp"
     #include "Clock.hpp"
     #include "Nand.hpp"
 

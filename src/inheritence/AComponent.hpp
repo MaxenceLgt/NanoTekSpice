@@ -15,7 +15,7 @@ class AComponent : public nts::IComponent {
         AComponent() {};
         ~AComponent();
     public:
-        virtual nts::Tristate compute ([[maybe_unused]] std::size_t pin) {};
+        virtual nts::Tristate compute ([[maybe_unused]] std::size_t pin) {return nts::Tristate::Undefined;};
         void simulate([[maybe_unused]] std::size_t tick) {};
         void setLink([[maybe_unused]] std::size_t pin, [[maybe_unused]] nts::IComponent &other, [[maybe_unused]] std::size_t otherPin) {};
     protected:
