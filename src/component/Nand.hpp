@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include "../inheritence/AComponent.hpp"
+#include "AComponent.hpp"
 
 class Nand : public AComponent {
     public:
         Nand();
+        Nand(const Nand &obj);
         ~Nand();
-
     public:
         nts::Tristate compute(std::size_t pin);
 };

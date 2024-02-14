@@ -10,3 +10,13 @@
 AComponent::~AComponent()
 {
 }
+
+void AComponent::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
+{
+    if (pin > this->_links.size() || pin < this->_links.size())
+        return;
+    if (this->_links[pin] != &other) {
+        this->_links[pin] = &other;
+        other.setLink(otherPin, *this, pin);
+    }
+}

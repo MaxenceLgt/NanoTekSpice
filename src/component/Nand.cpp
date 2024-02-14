@@ -13,6 +13,11 @@ Nand::Nand() : AComponent()
         this->_links.push_back(nullptr);
 }
 
+Nand::Nand(const Nand &obj)
+{
+    this->_links = obj._links;
+}
+
 Nand::~Nand()
 {
 }

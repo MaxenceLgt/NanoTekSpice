@@ -8,6 +8,7 @@
 #pragma once
 
 #include "IComponent.hpp"
+#include <memory>
 #include <vector>
 
 class AComponent : public nts::IComponent {
@@ -17,7 +18,8 @@ class AComponent : public nts::IComponent {
     public:
         virtual nts::Tristate compute ([[maybe_unused]] std::size_t pin) {return nts::Tristate::Undefined;};
         void simulate([[maybe_unused]] std::size_t tick) {};
-        void setLink([[maybe_unused]] std::size_t pin, [[maybe_unused]] nts::IComponent &other, [[maybe_unused]] std::size_t otherPin) {};
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin);
+        //std::shared_ptr<nts::IComponent> clone() {return nullptr;};
     protected:
         std::vector<nts::IComponent *> _links;
 };

@@ -12,6 +12,7 @@
 class False : public AComponent {
     public:
         False();
+        False(const False &obj);
         ~False();
     public:
         nts::Tristate compute (std::size_t pin);

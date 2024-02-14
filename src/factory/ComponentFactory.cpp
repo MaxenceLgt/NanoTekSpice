@@ -9,25 +9,28 @@
 
 ComponentFactory::ComponentFactory()
 {
-    this->_creationMap["input"] = std::make_shared<Input>();
-    this->_creationMap["output"] = std::make_shared<Output>();
-    this->_creationMap["true"] = std::make_shared<True>();
-    this->_creationMap["false"] = std::make_shared<False>();
-    this->_creationMap["clock"] = std::make_shared<Clock>();
-    this->_creationMap["nand"] = std::make_shared<Nand>();
+    this->_creationMap["input"] = []() {return std::make_shared<Input>();};
+    this->_creationMap["output"] = []() {return std::make_shared<Output>();};
+    this->_creationMap["true"] = []() {return std::make_shared<True>();};;
+    this->_creationMap["false"] = []() {return std::make_shared<False>();};
+    this->_creationMap["clock"] = []() {return std::make_shared<Clock>();};
+    this->_creationMap["nand"] = []() {return std::make_shared<Nand>();};
 }
 
-std::shared_ptr<nts::IComponent> ComponentFactory::createComponent([[maybe_unused]] const std::string &type)
+std::shared_ptr<nts::IComponent> ComponentFactory::createComponent(const std::string &type)
 {
+    auto key = this->_creationMap.find(type);
+    if (key != this->_creationMap.end())
+        return this->createMappedComponent(type);
     return nullptr;
 }
 
-std::shared_ptr<nts::IComponent> ComponentFactory::createMappedComponent([[maybe_unused]] const std::string &type)
+std::shared_ptr<nts::IComponent> ComponentFactory::createMappedComponent(const std::string &type)
 {
-    return nullptr;
+    return this->_creationMap[type]();
 }
 
-std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> ComponentFactory::getMap() const
+std::unordered_map<std::string, std::function<std::shared_ptr<nts::IComponent>()>> ComponentFactory::getMap() const
 {
     return this->_creationMap;
 }

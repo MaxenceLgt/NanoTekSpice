@@ -12,6 +12,7 @@
 class Clock : public AComponent {
     public:
         Clock();
+        Clock(const Clock &obj);
         ~Clock();
     public:
         nts::Tristate compute (std::size_t pin);

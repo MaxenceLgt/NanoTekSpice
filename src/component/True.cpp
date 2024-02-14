@@ -13,11 +13,17 @@ True::True()
         this->_links.push_back(nullptr);
 }
 
+True::True(const True &obj)
+{
+    this->_links = obj._links;
+}
+
 True::~True()
 {
 }
 
-nts::Tristate True::compute (std::size_t pin) {
+nts::Tristate True::compute (std::size_t pin)
+{
     (void)pin;
     return nts::Tristate::True;
 }

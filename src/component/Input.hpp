@@ -12,6 +12,7 @@
 class Input : public AComponent {
     public:
         Input();
+        Input(const Input &obj);
         ~Input();
     public:
         nts::Tristate compute(std::size_t pin);

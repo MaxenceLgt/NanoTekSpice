@@ -13,6 +13,11 @@ Output::Output() : AComponent()
         this->_links.push_back(nullptr);
 }
 
+Output::Output(const Output &obj)
+{
+    this->_links = obj._links;
+}
+
 Output::~Output()
 {
 }

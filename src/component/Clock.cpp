@@ -15,6 +15,11 @@ Clock::Clock() : AComponent()
         this->_links.push_back(nullptr);
 }
 
+Clock::Clock(const Clock &obj)
+{
+    this->_links = obj._links;
+}
+
 Clock::~Clock()
 {
 }
@@ -35,3 +40,4 @@ void Clock::simulate(std::size_t tick)
     else if (this->_futurState == nts::Tristate::False)
         this->_futurState = nts::Tristate::True;
 }
+

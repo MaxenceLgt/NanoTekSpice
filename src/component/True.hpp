@@ -12,6 +12,7 @@
 class True : public AComponent {
     public:
         True();
+        True(const True &obj);
         ~True();
     public:
         nts::Tristate compute (std::size_t pin);

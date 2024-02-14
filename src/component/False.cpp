@@ -13,6 +13,11 @@ False::False() : AComponent()
         this->_links.push_back(nullptr);
 }
 
+False::False(const False &obj)
+{
+    this->_links = obj._links;
+}
+
 False::~False()
 {
 }

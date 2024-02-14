@@ -15,6 +15,13 @@ Input::Input()
         this->_links.push_back(nullptr);
 }
 
+Input::Input(const Input &obj)
+{
+    this->_actualState = obj._actualState;
+    this->_futurState = obj._futurState;
+    this->_links = obj._links;
+}
+
 Input::~Input()
 {
 }
