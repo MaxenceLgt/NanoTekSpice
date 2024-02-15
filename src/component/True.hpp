@@ -15,5 +15,5 @@ class True : public AComponent {
         True(const True &obj);
         ~True();
     public:
-        nts::Tristate compute (std::size_t pin);
+        nts::Tristate compute (std::size_t pin) override;
 };

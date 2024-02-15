@@ -15,5 +15,5 @@ class Nand : public AComponent {
         Nand(const Nand &obj);
         ~Nand();
     public:
-        nts::Tristate compute(std::size_t pin);
+        nts::Tristate compute(std::size_t pin) override;
 };

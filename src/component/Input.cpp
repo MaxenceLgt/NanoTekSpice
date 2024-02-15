@@ -37,3 +37,9 @@ void Input::simulate(std::size_t tick)
     (void)tick;
     this->_actualState = this->_futurState;
 };
+
+Input &Input::operator=(const nts::Tristate &state)
+{
+    this->_futurState = state;
+    return *this;
+}

@@ -15,5 +15,5 @@ class Output : public AComponent {
         Output(const Output &obj);
         ~Output();
     public:
-        nts::Tristate compute(std::size_t pin);
+        nts::Tristate compute(std::size_t pin) override;
 };

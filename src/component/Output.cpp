@@ -5,6 +5,7 @@
 ** Output
 */
 
+#include <iostream>
 #include "Output.hpp"
 
 Output::Output() : AComponent()

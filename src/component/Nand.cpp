@@ -5,6 +5,7 @@
 ** Nand
 */
 
+#include <iostream>
 #include "Nand.hpp"
 
 Nand::Nand() : AComponent()
@@ -27,5 +28,13 @@ nts::Tristate Nand::compute(std::size_t pin)
     nts::Tristate a = this->_links[1] != nullptr ? this->_links[1]->compute(pin) : nts::Tristate::Undefined;
     nts::Tristate b = this->_links[2] != nullptr ? this->_links[2]->compute(pin) : nts::Tristate::Undefined;
 
-    return (nts::Tristate)!(a && b);
+    if (a == nts::Tristate::Undefined && b == nts::Tristate::Undefined)
+        return nts::Tristate::Undefined;
+    if ((a == nts::Tristate::True || b == nts::Tristate::True) && (a == nts::Tristate::Undefined || b == nts::Tristate::Undefined))
+        return nts::Tristate::Undefined;
+    if (a == nts::Tristate::False || b == nts::Tristate::False)
+        return nts::Tristate::True;
+    if (a == nts::Tristate::True && b == nts::Tristate::True)
+        return nts::Tristate::False;
+    throw AComponent::ComponentError("Cas non géré :) !");
 }

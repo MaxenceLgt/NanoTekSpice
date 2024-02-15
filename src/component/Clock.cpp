@@ -41,3 +41,8 @@ void Clock::simulate(std::size_t tick)
         this->_futurState = nts::Tristate::True;
 }
 
+Clock &Clock::operator=(const nts::Tristate &state)
+{
+    this->_futurState = state;
+    return *this;
+}

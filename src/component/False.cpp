@@ -22,7 +22,8 @@ False::~False()
 {
 }
 
-nts::Tristate False::compute(std::size_t pin) {
+nts::Tristate False::compute(std::size_t pin)
+{
     (void)pin;
     return nts::Tristate::False;
 }

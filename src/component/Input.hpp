@@ -15,8 +15,9 @@ class Input : public AComponent {
         Input(const Input &obj);
         ~Input();
     public:
-        nts::Tristate compute(std::size_t pin);
-        void simulate(std::size_t tick);
+        nts::Tristate compute(std::size_t pin) override;
+        void simulate(std::size_t tick) override;
+        Input &operator=(const nts::Tristate &state) override;
     private:
         nts::Tristate _actualState;
         nts::Tristate _futurState;
