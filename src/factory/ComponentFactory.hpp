@@ -26,8 +26,8 @@ class ComponentFactory {
         ComponentFactory();
         ~ComponentFactory() {};
     public:
+        bool isMappedComponent(const std::string &type);
         std::shared_ptr<nts::IComponent> createComponent(const std::string &type);
-        std::shared_ptr<nts::IComponent> createMappedComponent(const std::string &type);
         std::unordered_map<std::string, std::function<std::shared_ptr<nts::IComponent>()>> getMap() const;
     public:
         class FactoryError : public std::exception {

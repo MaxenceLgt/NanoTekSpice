@@ -18,20 +18,18 @@ ComponentFactory::ComponentFactory()
     this->_creationMap["nand"] = []() {return std::make_shared<Nand>();};
 }
 
-std::shared_ptr<nts::IComponent> ComponentFactory::createComponent(const std::string &type)
+bool ComponentFactory::isMappedComponent(const std::string &type)
 {
-    std::ifstream configFile;
     auto key = this->_creationMap.find(type);
     if (key != this->_creationMap.end())
-        return this->createMappedComponent(type);
-    configFile.open("./src/config/" + type + "_config.nts");
-    if (configFile.fail())
-        throw ComponentFactory::FactoryError("ComponentFactory : Invalid file path.");
-    return nullptr;
+        return true;
+    return false;
 }
 
-std::shared_ptr<nts::IComponent> ComponentFactory::createMappedComponent(const std::string &type)
+std::shared_ptr<nts::IComponent> ComponentFactory::createComponent(const std::string &type)
 {
+    if (this->isMappedComponent(type) == false)
+        throw ComponentFactory::FactoryError("Don't try to create invalid component ;)");
     return this->_creationMap[type]();
 }
 
