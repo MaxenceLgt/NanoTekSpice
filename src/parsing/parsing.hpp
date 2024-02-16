@@ -27,7 +27,6 @@ class Parsing
 
     public:
         void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
-        void parsingConfig(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
         int parsingPin(std::string ligne);
         void parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
         void parsingLink(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
