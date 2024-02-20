@@ -15,19 +15,22 @@ Parsing::~Parsing()
 {
 }
 
-void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map)
+void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<std::shared_ptr<nts::IComponent>> &link)
 {
     std::ifstream file (fileName);
     std::ostringstream oss;
     std::string ligne;
     int level = 0;
     int config = 0;
+    int pin = 0;
 
     if (file.fail())
         throw Parsing::ParsingError("parsingFile : Invalid File.");
     while (std::getline(file, ligne)) {
         if (fileName.find("config") && config == 0) {
-            config = 1;
+            for (pin = parsingPin(fileName) + 1;pin != 0;pin--) {
+                link.push_back(nullptr);
+            }
             continue;
         }
         if (ligne.empty() || ligne[0] == '#')
@@ -70,6 +73,7 @@ int Parsing::parsingPin(std::string fileName)
     while (std::getline(file, ligne)) {
         std::smatch matches;
         if (std::regex_search(ligne, matches, pattern)) {
+            file.close();
             return std::stoi(matches[1]);
         }
     }

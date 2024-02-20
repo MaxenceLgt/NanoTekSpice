@@ -9,6 +9,7 @@
     #define PARSING_HPP_
     #include <string>
     #include <fstream>
+    #include <vector>
     #include <sstream>
     #include <unordered_map>
     #include <exception>
@@ -26,7 +27,7 @@ class Parsing
         ~Parsing();
 
     public:
-        void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
+        void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<std::shared_ptr<nts::IComponent>> &link);
         int parsingPin(std::string ligne);
         void parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
         void parsingLink(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
