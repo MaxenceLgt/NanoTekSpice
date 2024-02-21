@@ -17,10 +17,12 @@ class AComponent : public nts::IComponent {
         ~AComponent();
     public:
         virtual nts::Tristate compute ([[maybe_unused]] std::size_t pin) override {return nts::Tristate::Undefined;};
-        void simulate([[maybe_unused]] std::size_t tick) override {};
+        void simulate([[maybe_unused]] std::size_t tick) override {isParsed = true;};
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) override;
     public:
         AComponent &operator=(const nts::Tristate &state) override;
+    protected:
+        nts::IComponent *getLinkableComponent(nts::IComponent *component, std::size_t pin);
     public:
         class ComponentError : public std::exception {
             public:
@@ -31,6 +33,7 @@ class AComponent : public nts::IComponent {
             private:
                 std::string _msg;
         };
-    protected:
+    public:
         std::vector<nts::IComponent *> _links;
+        bool isParsed = false;
 };

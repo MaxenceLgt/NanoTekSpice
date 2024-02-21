@@ -5,8 +5,8 @@
 ** parsing
 */
 
-#ifndef PARSING_HPP_
-    #define PARSING_HPP_
+#pragma once
+
     #include <string>
     #include <fstream>
     #include <vector>
@@ -18,7 +18,6 @@
     #include "IComponent.hpp"
     #include "ComponentFactory.hpp"
     #include <regex>
-    #include "Circuit.hpp"
 
 class Parsing
 {
@@ -27,7 +26,7 @@ class Parsing
         ~Parsing();
 
     public:
-        void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<std::shared_ptr<nts::IComponent>> &link);
+        void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<nts::IComponent *> &link);
         int parsingPin(std::string ligne);
         void parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
         void parsingLink(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
@@ -47,4 +46,3 @@ class Parsing
         ComponentFactory _factory;
 };
 
-#endif /* !PARSING_HPP_ */

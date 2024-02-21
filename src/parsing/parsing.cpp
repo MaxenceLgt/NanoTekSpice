@@ -5,6 +5,8 @@
 ** parsing
 */
 
+#include <iostream>
+#include "Circuit.hpp"
 #include "parsing.hpp"
 
 Parsing::Parsing()
@@ -15,7 +17,7 @@ Parsing::~Parsing()
 {
 }
 
-void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<std::shared_ptr<nts::IComponent>> &link)
+void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<nts::IComponent *> &link)
 {
     std::ifstream file (fileName);
     std::ostringstream oss;
@@ -28,9 +30,9 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
         throw Parsing::ParsingError("parsingFile : Invalid File.");
     while (std::getline(file, ligne)) {
         if (fileName.find("config") && config == 0) {
-            for (pin = parsingPin(fileName) + 1;pin != 0;pin--) {
+            for (pin = parsingPin(fileName) + 1; pin > 0; pin--)
                 link.push_back(nullptr);
-            }
+            config = 1;
             continue;
         }
         if (ligne.empty() || ligne[0] == '#')
@@ -38,12 +40,16 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
         std::istringstream iss(ligne);
         std::string token;
         iss >> token;
-        if (token == ".chipset:") {
+        std::cout << "Ma string est pas vide" << std::endl;
+        if (token == ".chipsets:") {
             std::string secondWord;
             if (iss >> secondWord && secondWord[0] == '#') {
+                std::cout << "Je dois créer un chipset" << std::endl;
                 level = 1;
                 continue;
             }
+            level = 1;
+            continue;
         }
         if (token == ".link:" && level == 1) {
             std::string secondWord;
@@ -51,10 +57,12 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
                 level = 2;
                 continue;
             }
+            level = 2;
+            continue;
         }
-        if (level = 1)
+        if (level == 1)
             parsingChipset(ligne, _map);
-        if (level = 2)
+        if (level == 2)
             parsingLink(ligne, _map);
     }
     file.close();
@@ -62,11 +70,10 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
 
 int Parsing::parsingPin(std::string fileName)
 {
-    std::ifstream file (fileName);
+    std::ifstream file(fileName);
     std::regex pattern(R"(^\b(\w+)\b$)");
     std::ostringstream oss;
     std::string ligne;
-    int level = 0;
 
     if (file.fail())
         throw Parsing::ParsingError("parsingFile : Invalid File.");
@@ -78,6 +85,7 @@ int Parsing::parsingPin(std::string fileName)
         }
     }
     file.close();
+    return -1;
 }
 
 void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map)
@@ -88,9 +96,9 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
     if (std::regex_search(ligne, matches, pattern)) {
         if (mapContain(matches[2], _map))
             throw Parsing::ParsingError("parsingChipset : same name definition.");
-        if (_factory.isMappedComponent(matches[1]) == true)
+        if (_factory.isMappedComponent(matches[1]) == true) {
             _map[matches[2]] = _factory.createComponent(matches[1]);
-        else {
+        } else {
             _map[matches[2]] = std::make_shared<Circuit>(matches[1]);
         }   
     }

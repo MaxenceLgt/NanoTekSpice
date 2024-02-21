@@ -5,15 +5,25 @@
 ** Circuit
 */
 
-#ifndef CIRCUIT_HPP_
-    #define CIRCUIT_HPP_
+#pragma once
 
-class Circuit {
+#include "AComponent.hpp"
+#include "parsing.hpp"
+#include <unordered_map>
+#include <string>
+
+class Circuit : public AComponent {
     public:
         Circuit();
+        Circuit(const std::string &component) {(void)component;};
         ~Circuit();
-    protected:
-    private:
+    public:
+        std::shared_ptr<nts::IComponent> findComponent(const std::string name);
+        void addComponent(std::shared_ptr<nts::IComponent> component, std::string name);
+        //void display();
+    public:
+        //void simulate(std::size_t tick) override;
+    public:
+        std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> _map;
+        Parsing parser;
 };
-
-#endif /* !CIRCUIT_HPP_ */

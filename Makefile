@@ -7,7 +7,6 @@
 
 SRC	=	src/main.cpp				\
 		src/app/Circuit.cpp			\
-		src/component/BluePrint.cpp	\
 		src/component/Clock.cpp		\
 		src/component/False.cpp		\
 		src/component/True.cpp		\
@@ -15,7 +14,8 @@ SRC	=	src/main.cpp				\
 		src/component/Output.cpp	\
 		src/component/Input.cpp		\
 		src/factory/ComponentFactory.cpp	\
-		src/inheritence/AComponent.cpp
+		src/inheritence/AComponent.cpp		\
+		src/parsing/parsing.cpp
 
 INCLUDE =	src/app/			\
 			src/component/		\
