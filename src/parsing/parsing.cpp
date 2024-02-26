@@ -6,8 +6,8 @@
 */
 
 #include <iostream>
-#include "Circuit.hpp"
 #include "parsing.hpp"
+#include "Circuit.hpp"
 
 Parsing::Parsing()
 {
@@ -17,42 +17,40 @@ Parsing::~Parsing()
 {
 }
 
-void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<nts::IComponent *> &link, std::unordered_map<std::string, std::size_t> _linkIndex)
+void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::unordered_map<std::string, std::size_t> &_linkIndex)
 {
     std::ifstream file (fileName);
     std::ostringstream oss;
     std::string ligne;
     int level = 0;
-    int config = 0;
-    int pin = 0;
+    //int config = 0;
+    //int pin = 0;
     int nbr = 0;
 
     if (file.fail())
         throw Parsing::ParsingError("parsingFile : Invalid File.");
     while (std::getline(file, ligne)) {
-        if (fileName.find("config") && config == 0) {
-            for (pin = parsingPin(fileName) + 1; pin > 0; pin--)
-                link.push_back(nullptr);
-            config = 1;
-            continue;
-        }
+        // if (fileName.find("config") && config == 0) {
+        //     for (pin = parsingPin(fileName) + 1; pin > 0; pin--)
+        //         link.push_back(nullptr);
+        //     config = 1;
+        //     continue;
+        // }
         if (ligne.empty() || ligne[0] == '#')
             continue;
         std::istringstream iss(ligne);
         std::string token;
         iss >> token;
-        std::cout << "Ma string est pas vide" << std::endl;
         if (token == ".chipsets:") {
             std::string secondWord;
             if (iss >> secondWord && secondWord[0] == '#') {
-                std::cout << "Je dois créer un chipset" << std::endl;
                 level = 1;
                 continue;
             }
             level = 1;
             continue;
         }
-        if (token == ".link:" && level == 1) {
+        if (token == ".links:" && level == 1) {
             std::string secondWord;
             if (iss >> secondWord && secondWord[0] == '#') {
                 level = 2;
@@ -91,7 +89,7 @@ int Parsing::parsingPin(std::string fileName)
     return -1;
 }
 
-void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, int nbr, std::unordered_map<std::string, std::size_t> _linkIndex)
+void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, int nbr, std::unordered_map<std::string, std::size_t> &_linkIndex)
 {
     std::regex pattern(R"(^(\w+)\s+(\w+)(\s?#.*|\s*)?$)");
 

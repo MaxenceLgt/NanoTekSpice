@@ -31,7 +31,7 @@ class AComponent : public nts::IComponent {
             private:
                 std::string _msg;
         };
-    protected:
+    public:
         std::unordered_map<std::size_t, std::vector<nts::IComponent *>> _links;
         nts::Tristate _actualState;
         std::size_t _tick;

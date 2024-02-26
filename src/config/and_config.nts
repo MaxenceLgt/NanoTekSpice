@@ -16,5 +16,5 @@ nand nand2
 in_1:1 nand1:1
 in_2:1 nand1:2
 nand1:3 nand2:1
-nand1:3 nand2:2
+nand2:2 nand1:3
 out:1 nand2:3

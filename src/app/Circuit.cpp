@@ -5,6 +5,7 @@
 ** Circuit
 */
 
+#include <iostream>
 #include "Circuit.hpp"
 
 Circuit::Circuit()
@@ -13,9 +14,7 @@ Circuit::Circuit()
 
 Circuit::Circuit(const std::string &component)
 {
-    (void)component;
-    //parser.parsingFile("src/config/" + component + "_config.nts", this->_mapComponent,
-    //this->_links, this->_linkIndex);
+    parser.parsingFile("src/config/" + component + "_config.nts", this->_mapComponent, this->_linkIndex);
 }
 
 Circuit::~Circuit()

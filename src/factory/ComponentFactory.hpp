@@ -5,15 +5,13 @@
 ** ComponentFactory
 */
 
-#ifndef COMPONENT_FACTORY_HPP_
-    #define COMPONENT_FACTORY_HPP_
+#pragma once
 
     #include <memory>
     #include <string>
     #include <unordered_map>
     #include <exception>
     #include <functional>
-    #include "AComponent.hpp"
     #include "True.hpp"
     #include "False.hpp"
     #include "Input.hpp"
@@ -42,5 +40,3 @@ class ComponentFactory {
     private:
         std::unordered_map<std::string, std::function<std::shared_ptr<nts::IComponent>()>> _creationMap;
 };
-
-#endif /* !COMPONENT_FACTORY_HPP_ */

@@ -27,9 +27,9 @@ class Parsing
         ~Parsing();
 
     public:
-        void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<nts::IComponent *> &link, std::unordered_map<std::string, std::size_t> _linkIndex);
+        void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::unordered_map<std::string, std::size_t> &_linkIndex);
         int parsingPin(std::string ligne);
-        void parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map,int nbr, std::unordered_map<std::string, std::size_t> _linkIndex);
+        void parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map,int nbr, std::unordered_map<std::string, std::size_t> &_linkIndex);
         void parsingLink(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
         bool mapContain(std::string componentName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
 
