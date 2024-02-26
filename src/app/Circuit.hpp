@@ -22,7 +22,7 @@ class Circuit : public AComponent {
         void addComponent(std::shared_ptr<nts::IComponent> component, std::string name);
         //void display();
     public:
-        //void simulate(std::size_t tick) override;
+        void simulate(std::size_t tick) override;
     private:
         std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> _mapComponent;
         std::unordered_map<std::string, std::size_t> _linkIndex;
