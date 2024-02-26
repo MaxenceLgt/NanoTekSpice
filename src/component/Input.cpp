@@ -47,7 +47,7 @@ void Input::simulate(std::size_t tick)
 
 Input &Input::operator=(const nts::Tristate &state)
 {
-    if (this->_links.size() == 1)
+    if (this->_links.size() <= 1)
         this->_futurState = state;
     return *this;
 }
