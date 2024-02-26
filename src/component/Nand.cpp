@@ -29,16 +29,27 @@ nts::Tristate Nand::compute(std::size_t tick)
 
     if (this->_tick = tick)
         return this->_actualState;
+    this->_tick = tick;
     auto pair1 = this->_links.find(1);
     auto pair2 = this->_links.find(2);
 
+    if (pair2 != this->_links.end()) {
+        if (pair2->second.at(0)) {
+            b = pair2->second.at(0)->compute(tick);
+        }
+    }
+    if (pair1 != this->_links.end()) {
+        if (pair1->second.at(0)) {
+            a = pair1->second.at(0)->compute(tick);
+        }
+    }
     if (a == nts::Tristate::Undefined && b == nts::Tristate::Undefined)
-        return nts::Tristate::Undefined;
+        this->_actualState = nts::Tristate::Undefined;
     if ((a == nts::Tristate::True || b == nts::Tristate::True) && (a == nts::Tristate::Undefined || b == nts::Tristate::Undefined))
-        return nts::Tristate::Undefined;
+        this->_actualState = nts::Tristate::Undefined;
     if (a == nts::Tristate::False || b == nts::Tristate::False)
-        return nts::Tristate::True;
+        this->_actualState = nts::Tristate::True;
     if (a == nts::Tristate::True && b == nts::Tristate::True)
-        return nts::Tristate::False;
-    throw AComponent::ComponentError("Cas non géré :) !");
+        this->_actualState = nts::Tristate::False;
+    return this->_actualState;
 }
