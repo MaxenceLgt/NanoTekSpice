@@ -10,8 +10,7 @@
 
 Nand::Nand() : AComponent()
 {
-    for (size_t i = 0; i < 4; i++)
-        this->_links.push_back(nullptr);
+    this->_actualState = nts::Tristate::Undefined;
 }
 
 Nand::Nand(const Nand &obj)
@@ -23,10 +22,15 @@ Nand::~Nand()
 {
 }
 
-nts::Tristate Nand::compute(std::size_t pin)
+nts::Tristate Nand::compute(std::size_t tick)
 {
-    nts::Tristate a = this->_links[1] != nullptr ? this->_links[1]->compute(pin) : nts::Tristate::Undefined;
-    nts::Tristate b = this->_links[2] != nullptr ? this->_links[2]->compute(pin) : nts::Tristate::Undefined;
+    nts::Tristate a = nts::Tristate::Undefined;
+    nts::Tristate b = nts::Tristate::Undefined;
+
+    if (this->_tick = tick)
+        return this->_actualState;
+    auto pair1 = this->_links.find(1);
+    auto pair2 = this->_links.find(2);
 
     if (a == nts::Tristate::Undefined && b == nts::Tristate::Undefined)
         return nts::Tristate::Undefined;

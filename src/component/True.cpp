@@ -7,10 +7,9 @@
 
 #include "True.hpp"
 
-True::True()
+True::True() : AComponent()
 {
-    for (size_t i = 0; i < 2; i++)
-        this->_links.push_back(nullptr);
+    this->_actualState = nts::Tristate::True;
 }
 
 True::True(const True &obj)
@@ -22,8 +21,8 @@ True::~True()
 {
 }
 
-nts::Tristate True::compute (std::size_t pin)
+nts::Tristate True::compute (std::size_t tick)
 {
-    (void)pin;
-    return nts::Tristate::True;
+    this->_tick = tick;
+    return this->_actualState;
 }

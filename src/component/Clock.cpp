@@ -11,8 +11,6 @@ Clock::Clock() : AComponent()
 {
     this->_actualState = nts::Tristate::Undefined;
     this->_futurState = nts::Tristate::Undefined;
-    for (size_t i = 0; i < 2; i++)
-        this->_links.push_back(nullptr);
 }
 
 Clock::Clock(const Clock &obj)
@@ -24,15 +22,14 @@ Clock::~Clock()
 {
 }
 
-nts::Tristate Clock::compute(std::size_t pin)
+nts::Tristate Clock::compute(std::size_t tick)
 {
-    (void)pin;
+    this->_tick = tick;
     return this->_actualState;
 }
 
 void Clock::simulate(std::size_t tick)
 {
-    (void)tick;
     this->_actualState = this->_futurState;
 
     if (this->_futurState == nts::Tristate::True)

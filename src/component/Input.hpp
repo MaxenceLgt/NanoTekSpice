@@ -19,6 +19,5 @@ class Input : public AComponent {
         void simulate(std::size_t tick) override;
         Input &operator=(const nts::Tristate &state) override;
     private:
-        nts::Tristate _actualState;
         nts::Tristate _futurState;
 };

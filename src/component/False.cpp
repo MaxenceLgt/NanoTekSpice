@@ -9,8 +9,7 @@
 
 False::False() : AComponent()
 {
-    for (size_t i = 0; i < 2; i++)
-        this->_links.push_back(nullptr);
+    this->_actualState = nts::Tristate::False;
 }
 
 False::False(const False &obj)
@@ -22,8 +21,8 @@ False::~False()
 {
 }
 
-nts::Tristate False::compute(std::size_t pin)
+nts::Tristate False::compute(std::size_t tick)
 {
-    (void)pin;
-    return nts::Tristate::False;
+    this->_tick = tick;
+    return this->_actualState;
 }

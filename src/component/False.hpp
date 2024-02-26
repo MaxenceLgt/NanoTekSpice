@@ -15,5 +15,5 @@ class False : public AComponent {
         False(const False &obj);
         ~False();
     public:
-        nts::Tristate compute(std::size_t pin) override;
+        nts::Tristate compute(std::size_t tick) override;
 };

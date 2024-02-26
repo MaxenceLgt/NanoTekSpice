@@ -11,15 +11,17 @@
 #include "AComponent.hpp"
 #include "Circuit.hpp"
 
+/*
 void dump(std::shared_ptr<Circuit> CORP) {
     std::cout << "MAP CONTENT:" << std::endl;
     for (auto key : CORP->_map) {
         std::cout << key.first << std::endl;
     };
 }
-
+*/
 int main()
 {
+    /*
     try
     {
         ComponentFactory factory;
@@ -54,4 +56,5 @@ int main()
         std::cerr << e.what() << std::endl;
         return 84;
     }
+    */
 }

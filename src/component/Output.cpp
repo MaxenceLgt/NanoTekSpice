@@ -10,8 +10,7 @@
 
 Output::Output() : AComponent()
 {
-    for (size_t i = 0; i < 2; i++)
-        this->_links.push_back(nullptr);
+    this->_actualState = nts::Tristate::Undefined;
 }
 
 Output::Output(const Output &obj)
@@ -23,9 +22,18 @@ Output::~Output()
 {
 }
 
-nts::Tristate Output::compute(std::size_t pin)
+nts::Tristate Output::compute(std::size_t tick)
 {
-    if (this->_links[1] == nullptr)
-        return nts::Tristate::Undefined;
-    return this->_links[1]->compute(pin);
+    if (this->_tick == tick || _links.size() < 1)
+        return this->_actualState;
+    this->_tick = tick;
+    auto pair = this->_links.find(1);
+    if (pair != this->_links.end()) {
+        std::vector<nts::IComponent *> linkedComponents = pair->second;
+        if (!linkedComponents.empty() && linkedComponents.at(0) != nullptr) {
+            this->_actualState = linkedComponents.at(0)->compute(tick);
+            return this->_actualState;
+        }
+    }
+    return this->_actualState;
 }

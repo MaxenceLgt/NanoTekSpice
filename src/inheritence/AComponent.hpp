@@ -8,21 +8,19 @@
 #pragma once
 
 #include "IComponent.hpp"
-#include <memory>
 #include <vector>
+#include <unordered_map>
 
 class AComponent : public nts::IComponent {
     protected:
-        AComponent() {};
+        AComponent();
         ~AComponent();
     public:
-        virtual nts::Tristate compute ([[maybe_unused]] std::size_t pin) override {return nts::Tristate::Undefined;};
-        void simulate([[maybe_unused]] std::size_t tick) override {isParsed = true;};
+        virtual nts::Tristate compute (std::size_t tick) override;
+        void simulate(std::size_t tick) override;
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) override;
     public:
         AComponent &operator=(const nts::Tristate &state) override;
-    protected:
-        nts::IComponent *getLinkableComponent(nts::IComponent *component, std::size_t pin);
     public:
         class ComponentError : public std::exception {
             public:
@@ -33,7 +31,8 @@ class AComponent : public nts::IComponent {
             private:
                 std::string _msg;
         };
-    public:
-        std::vector<nts::IComponent *> _links;
-        bool isParsed = false;
+    protected:
+        std::unordered_map<std::size_t, std::vector<nts::IComponent *>> _links;
+        nts::Tristate _actualState;
+        std::size_t _tick;
 };
