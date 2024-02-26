@@ -59,3 +59,41 @@ nts::IComponent *Circuit::getAtPin(std::size_t pin)
         return nullptr;
     return pair->second.get();
 }
+
+void Circuit::display()
+{
+    nts::Tristate computeValue = nts::Tristate::Undefined;
+
+    std::cout << "tick: " << this->_tick << std::endl;
+    std::cout << "input(s):" << std::endl;
+    this->parser.input.sort();
+    for (auto elm : parser.input) {
+        std::shared_ptr<nts::IComponent> component = findComponent(elm);
+        if (component != nullptr) {
+            computeValue = component->compute(this->_tick);
+        }
+        if (computeValue == -1) {
+            std::cout << "  " << elm << ": " << "U" << std::endl;
+            computeValue = nts::Tristate::Undefined;
+            continue;
+        }
+        std::cout << "  " << elm << ": " << computeValue << std::endl;
+        computeValue = nts::Tristate::Undefined;
+    }
+    std::cout << "output(s):" << std::endl;
+    this->parser.output.sort();
+    for (auto elm : parser.output) {
+        std::shared_ptr<nts::IComponent> component = findComponent(elm);
+        if (component != nullptr) {
+            computeValue = component->compute(this->_tick);
+        }
+        if (computeValue == -1) {
+            std::cout << "  " << elm << ": " << "U" << std::endl;
+            computeValue = nts::Tristate::Undefined;
+            continue;
+        }
+        std::cout << "  " << elm << ": " << computeValue << std::endl;
+        computeValue = nts::Tristate::Undefined;
+    }
+    return;
+}

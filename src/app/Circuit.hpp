@@ -20,7 +20,7 @@ class Circuit : public AComponent {
     public:
         std::shared_ptr<nts::IComponent> findComponent(const std::string name);
         void addComponent(std::shared_ptr<nts::IComponent> component, std::string name);
-        //void display();
+        void display();
     public:
         void simulate(std::size_t tick) override;
     public:
