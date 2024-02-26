@@ -17,7 +17,7 @@ Parsing::~Parsing()
 {
 }
 
-void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<nts::IComponent *> &link)
+void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::vector<nts::IComponent *> &link, std::unordered_map<std::string, std::size_t> _linkIndex)
 {
     std::ifstream file (fileName);
     std::ostringstream oss;
@@ -25,6 +25,7 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
     int level = 0;
     int config = 0;
     int pin = 0;
+    int nbr = 0;
 
     if (file.fail())
         throw Parsing::ParsingError("parsingFile : Invalid File.");
@@ -60,8 +61,10 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
             level = 2;
             continue;
         }
-        if (level == 1)
-            parsingChipset(ligne, _map);
+        if (level == 1) {
+            nbr++;
+            parsingChipset(ligne, _map, nbr, _linkIndex);
+        }
         if (level == 2)
             parsingLink(ligne, _map);
     }
@@ -88,7 +91,7 @@ int Parsing::parsingPin(std::string fileName)
     return -1;
 }
 
-void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map)
+void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, int nbr, std::unordered_map<std::string, std::size_t> _linkIndex)
 {
     std::regex pattern(R"(^(\w+)\s+(\w+)(\s?#.*|\s*)?$)");
 
@@ -96,10 +99,16 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
     if (std::regex_search(ligne, matches, pattern)) {
         if (mapContain(matches[2], _map))
             throw Parsing::ParsingError("parsingChipset : same name definition.");
+        if (matches[1] == "output")
+            this->output.push_back(matches[2]);
+        if (matches[1] == "input")
+            this->output.push_back(matches[2]);
         if (_factory.isMappedComponent(matches[1]) == true) {
             _map[matches[2]] = _factory.createComponent(matches[1]);
+            _linkIndex[matches[2]] = nbr;
         } else {
             _map[matches[2]] = std::make_shared<Circuit>(matches[1]);
+            _linkIndex[matches[2]] = nbr;
         }   
     }
 }
@@ -107,8 +116,8 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
 void Parsing::parsingLink(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map)
 {
     std::regex pattern(R"(^(\w+):(\w+)\s+(\w+):(\w+)(\s?#.*|\s*)?$)");
-
     std::smatch matches;
+
     if (std::regex_search(ligne, matches, pattern)) {
         if (!this->mapContain(matches[1], _map) || !this->mapContain(matches[3], _map))
             throw Parsing::ParsingError("parsingLink : inexistant Component.");
