@@ -27,7 +27,7 @@ nts::Tristate Nand::compute(std::size_t tick)
     nts::Tristate a = nts::Tristate::Undefined;
     nts::Tristate b = nts::Tristate::Undefined;
 
-    if (this->_tick = tick)
+    if (this->_tick == tick)
         return this->_actualState;
     this->_tick = tick;
     auto pair1 = this->_links.find(1);

@@ -5,6 +5,7 @@
 ** IO
 */
 
+#include <iostream>
 #include "Input.hpp"
 
 Input::Input() : AComponent()
@@ -40,8 +41,9 @@ nts::Tristate Input::compute(std::size_t tick)
 
 void Input::simulate(std::size_t tick)
 {
+    (void)tick;
     if (_links.size() > 1)
-        return;    
+        return;
     this->_actualState = this->_futurState;
 }
 

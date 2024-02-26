@@ -15,7 +15,7 @@
 class Circuit : public AComponent {
     public:
         Circuit();
-        Circuit(const std::string &component) {(void)component;};
+        Circuit(const std::string &component);
         ~Circuit();
     public:
         std::shared_ptr<nts::IComponent> findComponent(const std::string name);
@@ -23,6 +23,8 @@ class Circuit : public AComponent {
         //void display();
     public:
         void simulate(std::size_t tick) override;
+    public:
+        nts::IComponent *getAtPin(std::size_t pin);
     private:
         std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> _mapComponent;
         std::unordered_map<std::string, std::size_t> _linkIndex;

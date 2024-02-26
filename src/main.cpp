@@ -21,13 +21,12 @@ void dump(std::shared_ptr<Circuit> CORP) {
 */
 int main()
 {
-    /*
     try
     {
         ComponentFactory factory;
 
-        std::shared_ptr<Circuit> CORP = std::make_shared<Circuit>();
-        CORP->parser.parsingFile("./src/config/and_config.nts", CORP->_map, CORP->_links);
+        //std::shared_ptr<Circuit> CORP = std::make_shared<Circuit>();
+        //CORP->parser.parsingFile("./src/config/and_config.nts", CORP->_map, CORP->_links);
         std::shared_ptr<nts::IComponent> i1 = factory.createComponent("input");
         std::shared_ptr<nts::IComponent> i2 = factory.createComponent("input");
         std::shared_ptr<nts::IComponent> o1 = factory.createComponent("output");
@@ -38,23 +37,22 @@ int main()
         *i1 = nts::Tristate::False;
         *i2 = nts::Tristate::False;
         std::cout << "Valeur de retour nand : " << o1->compute(1) << std::endl;
-        i1->simulate(0);
-        std::cout << "Valeur de retour nand : " << o1->compute(1) << std::endl;
-        i2->simulate(0);
-        std::cout << "Valeur de retour nand : " << o1->compute(1) << std::endl;
-        std::cout << "TEST MAP CONTENT :" << std::endl;
-        dump(CORP);
-        for (auto test : CORP->_links) {
-            if (test != nullptr)
-                std::cout << "test pas null" << std::endl;
-            if (test == nullptr)
-                std::cout << "test est pd" << std::endl;
-
-        }
+        i1->simulate(1);
+        std::cout << "Valeur de retour nand : " << o1->compute(2) << std::endl;
+        i2->simulate(1);
+        std::cout << "Valeur de retour nand : " << o1->compute(3) << std::endl;
+        //std::cout << "TEST MAP CONTENT :" << std::endl;
+        //dump(CORP);
+        //for (auto test : CORP->_links) {
+        //    if (test != nullptr)
+        //        std::cout << "test pas null" << std::endl;
+        //    if (test == nullptr)
+        //        std::cout << "test est pd" << std::endl;
+//
+        //}
         return 0;
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 84;
     }
-    */
 }

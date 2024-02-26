@@ -32,6 +32,7 @@ void Clock::simulate(std::size_t tick)
 {
     this->_actualState = this->_futurState;
 
+    (void)tick;
     if (this->_futurState == nts::Tristate::True)
         this->_futurState = nts::Tristate::False;
     else if (this->_futurState == nts::Tristate::False)
