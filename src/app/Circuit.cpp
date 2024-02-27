@@ -24,8 +24,9 @@ Circuit::~Circuit()
 std::shared_ptr<nts::IComponent> Circuit::findComponent(const std::string name)
 {
     auto key = this->_mapComponent.find(name);
-    if (key != this->_mapComponent.end())
+    if (key == this->_mapComponent.end()) {
         return nullptr;
+    }
     return key->second;
 }
 
@@ -66,8 +67,9 @@ void Circuit::display()
 
     std::cout << "tick: " << this->_tick << std::endl;
     std::cout << "input(s):" << std::endl;
-    this->parser.input.sort();
-    for (auto elm : parser.input) {
+    std::list<std::string> input = this->parser.getinput();
+    input.sort();
+    for (auto elm : input) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
         if (component != nullptr) {
             computeValue = component->compute(this->_tick);
@@ -81,8 +83,9 @@ void Circuit::display()
         computeValue = nts::Tristate::Undefined;
     }
     std::cout << "output(s):" << std::endl;
-    this->parser.output.sort();
-    for (auto elm : parser.output) {
+    std::list<std::string> output = this->parser.getoutput();
+    output.sort();
+    for (auto elm : output) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
         if (component != nullptr) {
             computeValue = component->compute(this->_tick);
@@ -96,4 +99,30 @@ void Circuit::display()
         computeValue = nts::Tristate::Undefined;
     }
     return;
+}
+
+Parsing Circuit::getparser()
+{
+    return this->parser;
+}
+
+std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> Circuit::getmapcomp()
+{
+    return this->_mapComponent;
+}
+
+std::unordered_map<std::string, std::size_t> Circuit::getmaplink()
+{
+    return this->_linkIndex;
+}
+
+void Circuit::circuitparsing(std::string filename)
+{
+    this->parser.parsingFile(filename, _mapComponent, _linkIndex);
+    return;
+}
+
+std::size_t Circuit::gettick()
+{
+    return _tick;
 }

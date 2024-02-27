@@ -6,41 +6,75 @@
 */
 
 #include <iostream>
+#include <csignal>
+#include <atomic>
 #include "ComponentFactory.hpp"
 #include "IComponent.hpp"
 #include "AComponent.hpp"
 #include "Circuit.hpp"
 
-int main()
+std::atomic_flag flag = ATOMIC_FLAG_INIT;
+
+int main(int argc, char  **argv)
 {
+    if (argc != 2)
+        return 84;
     try {
-    
-        ComponentFactory factory;
+        std::shared_ptr<Circuit> circuit = std::make_shared<Circuit>();
+        circuit->circuitparsing(argv[1]);
 
-        std::shared_ptr<nts::IComponent> i1 = factory.createComponent("input");
-        std::shared_ptr<nts::IComponent> i2 = factory.createComponent("input");
-        std::shared_ptr<nts::IComponent> o1 = factory.createComponent("output");
-        std::shared_ptr<nts::IComponent> andComponent = std::make_shared<Circuit>("4081");
+        std::signal(SIGINT, [](int /*signum*/) {
+            flag.clear();
+        });
+        while (true) {
+            std::regex pattern(R"((\w+)=(\w+)?\n?$)");
 
-        i1->setLink(1, *andComponent, 1, 0);
-        i2->setLink(1, *andComponent, 2, 0);
-        andComponent->setLink(3, *o1, 1, 0);
-        *i1 = nts::Tristate::True;
-        *i2 = nts::Tristate::True;
-        std::cout << "Valeur de retour Undefined / Undefined : " << o1->compute(1) << std::endl;
-        i1->simulate(1);
-        std::cout << "Valeur de retour True / Undefined : " << o1->compute(2) << std::endl;
-        i2->simulate(1);
-        std::cout << "Valeur de retour True / True : " << o1->compute(3) << std::endl;
-        *i2 = nts::Tristate::False;
-        i2->simulate(1);
-        std::cout << "Valeur de retour True / False : " << o1->compute(4) << std::endl;
-        *i1 = nts::Tristate::False;
-        i1->simulate(1);
-        std::cout << "Valeur de retour False / False : " << o1->compute(5) << std::endl;
+            std::smatch matches;
+            std::string commande;
+
+            std::cout << "> ";
+            std::getline(std::cin, commande);
+
+            if (commande == "exit")
+                break;
+            if (commande == "display") {
+                circuit->display();
+                continue;
+            }
+            if (commande == "loop") {
+                while (flag.test_and_set()) {
+                    circuit->simulate(circuit->gettick() + 1);
+                    circuit->display();
+                }
+                continue;
+            }
+            if (commande == "simulate") {
+                circuit->simulate(circuit->gettick() + 1);
+                continue;
+            }
+            if (std::regex_search(commande, matches, pattern)) {
+                if (circuit->findComponent(matches[1]) == nullptr) {
+                    continue;
+                }
+                if (matches[2] != "0" && matches[2] != "1" && matches[2] != "U") {
+                    continue;
+                }
+                std::shared_ptr<nts::IComponent> component = circuit->findComponent(matches[1]);
+                if (matches[2] == "0") {
+                    *component = nts::Tristate::False;
+                }
+                if (matches[2] == "1") {
+                    *component = nts::Tristate::True;
+                }
+                if (matches[2] == "U") {
+                    *component = nts::Tristate::Undefined;
+                }
+            }
+            }
         return 0;
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 84;
     }
+    return 0;
 }

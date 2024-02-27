@@ -22,40 +22,22 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
     std::ifstream file (fileName);
     std::ostringstream oss;
     std::string ligne;
+    std::regex pattern1(R"(^.links:([\s+]?#.*|\s*)?\n?$)");
+    std::regex pattern2(R"(^.chipsets:([\s+]?#.*|\s*)?\n?$)");
+    std::smatch matches;
     int level = 0;
-    //int config = 0;
-    //int pin = 0;
     int nbr = 0;
 
     if (file.fail())
         throw Parsing::ParsingError("parsingFile : Invalid File.");
     while (std::getline(file, ligne)) {
-        // if (fileName.find("config") && config == 0) {
-        //     for (pin = parsingPin(fileName) + 1; pin > 0; pin--)
-        //         link.push_back(nullptr);
-        //     config = 1;
-        //     continue;
-        // }
         if (ligne.empty() || ligne[0] == '#')
             continue;
-        std::istringstream iss(ligne);
-        std::string token;
-        iss >> token;
-        if (token == ".chipsets:") {
-            std::string secondWord;
-            if (iss >> secondWord && secondWord[0] == '#') {
-                level = 1;
-                continue;
-            }
+        if (std::regex_search(ligne, matches, pattern2) && level == 0) {
             level = 1;
             continue;
         }
-        if (token == ".links:" && level == 1) {
-            std::string secondWord;
-            if (iss >> secondWord && secondWord[0] == '#') {
-                level = 2;
-                continue;
-            }
+        if (std::regex_search(ligne, matches, pattern1) && level == 1) {
             level = 2;
             continue;
         }
@@ -66,27 +48,9 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
         if (level == 2)
             parsingLink(ligne, _map);
     }
+    if (_map.empty())
+        throw Parsing::ParsingError("parsingFile : Nocomponent.");
     file.close();
-}
-
-int Parsing::parsingPin(std::string fileName)
-{
-    std::ifstream file(fileName);
-    std::regex pattern(R"(^\b(\w+)\b$)");
-    std::ostringstream oss;
-    std::string ligne;
-
-    if (file.fail())
-        throw Parsing::ParsingError("parsingFile : Invalid File.");
-    while (std::getline(file, ligne)) {
-        std::smatch matches;
-        if (std::regex_search(ligne, matches, pattern)) {
-            file.close();
-            return std::stoi(matches[1]);
-        }
-    }
-    file.close();
-    return -1;
 }
 
 void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, int nbr, std::unordered_map<std::string, std::size_t> &_linkIndex)
@@ -100,7 +64,7 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
         if (matches[1] == "output")
             this->output.push_back(matches[2]);
         if (matches[1] == "input")
-            this->output.push_back(matches[2]);
+            this->input.push_back(matches[2]);
         if (_factory.isMappedComponent(matches[1]) == true) {
             _map[matches[2]] = _factory.createComponent(matches[1]);
             _linkIndex[matches[2]] = nbr;
@@ -128,4 +92,14 @@ bool Parsing::mapContain(std::string componentName, std::unordered_map<std::stri
     if (key != _map.end())
         return true;
     return false;
+}
+
+std::list<std::string> Parsing::getinput()
+{
+    return this->input;
+}
+
+std::list<std::string> Parsing::getoutput()
+{
+    return this->output;
 }
