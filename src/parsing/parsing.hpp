@@ -43,7 +43,7 @@ class Parsing
                 std::string _msg;
         };
 
-    protected:
+    public:
         ComponentFactory _factory;
         std::list<std::string> input;
         std::list<std::string> output;

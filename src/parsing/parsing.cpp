@@ -119,7 +119,7 @@ void Parsing::parsingLink(std::string ligne, std::unordered_map<std::string, std
     if (std::regex_search(ligne, matches, pattern)) {
         if (!this->mapContain(matches[1], _map) || !this->mapContain(matches[3], _map))
             throw Parsing::ParsingError("parsingLink : inexistant Component.");
-        _map[matches[1]]->setLink(std::stoi(matches[2]), *_map[matches[3]], std::stoi(matches[4]));
+        _map[matches[1]]->setLink(std::stoi(matches[2]), *_map[matches[3]], std::stoi(matches[4]), 0);
     }
 }
 

@@ -4,11 +4,11 @@
 # in -1-|>o-2- out
 
 .chipsets:
-input in
+input in_1
 output out
-nand gate
+nand nand1
 
 .links:
-in:1 gate:1
-in:1 gate:2
-output:out gate:3
+in_1:1 nand1:1
+in_1:1 nand1:2
+out:1 nand1:3

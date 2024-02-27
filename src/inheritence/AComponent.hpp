@@ -18,7 +18,7 @@ class AComponent : public nts::IComponent {
     public:
         virtual nts::Tristate compute (std::size_t tick) override;
         void simulate(std::size_t tick) override;
-        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) override;
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin, bool isPassed) override;
     public:
         AComponent &operator=(const nts::Tristate &state) override;
     public:
@@ -31,7 +31,7 @@ class AComponent : public nts::IComponent {
             private:
                 std::string _msg;
         };
-    public:
+    protected:
         std::unordered_map<std::size_t, std::vector<nts::IComponent *>> _links;
         nts::Tristate _actualState;
         std::size_t _tick;
