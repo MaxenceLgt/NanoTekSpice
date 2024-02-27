@@ -17,21 +17,10 @@ int main()
     
         ComponentFactory factory;
 
-        //std::shared_ptr<Circuit> CORP = std::make_shared<Circuit>();
-        //CORP->parser.parsingFile("./src/config/and_config.nts", CORP->_mapComponent, CORP->_linkIndex);
         std::shared_ptr<nts::IComponent> i1 = factory.createComponent("input");
         std::shared_ptr<nts::IComponent> i2 = factory.createComponent("input");
         std::shared_ptr<nts::IComponent> o1 = factory.createComponent("output");
-        std::shared_ptr<nts::IComponent> andComponent = std::make_shared<Circuit>("xor");
-
-        // std::cout << "AND component :" << std::endl;
-        // for (auto pair : andComponent->_mapComponent)
-        //     std::cout << pair.first << std::endl;
-        // std::cout << "AND linkIndex:" << std::endl;
-        // for (auto pair : andComponent->_linkIndex)
-        //     std::cout << pair.first << " : " << pair.second << std::endl;
-        
-
+        std::shared_ptr<nts::IComponent> andComponent = std::make_shared<Circuit>("4081");
 
         i1->setLink(1, *andComponent, 1, 0);
         i2->setLink(1, *andComponent, 2, 0);
@@ -49,15 +38,6 @@ int main()
         *i1 = nts::Tristate::False;
         i1->simulate(1);
         std::cout << "Valeur de retour False / False : " << o1->compute(5) << std::endl;
-        //std::cout << "TEST MAP CONTENT :" << std::endl;
-        //dump(CORP);
-        //for (auto test : CORP->_links) {
-        //    if (test != nullptr)
-        //        std::cout << "test pas null" << std::endl;
-        //    if (test == nullptr)
-        //        std::cout << "test est pd" << std::endl;
-//
-        //}
         return 0;
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
