@@ -1,82 +1,55 @@
 ##
 ## EPITECH PROJECT, 2024
-## Nano
+## B-PDG-300-REN-3-1-PDGD04am-maxence.largeot
 ## File description:
 ## Makefile
 ##
 
-CC 			= 	g++
+SRC	=	src/main.cpp				\
+		src/app/Circuit.cpp			\
+		src/component/Clock.cpp		\
+		src/component/False.cpp		\
+		src/component/True.cpp		\
+		src/component/Nand.cpp		\
+		src/component/Output.cpp	\
+		src/component/Input.cpp		\
+		src/factory/ComponentFactory.cpp	\
+		src/inheritence/AComponent.cpp		\
+		src/parsing/parsing.cpp
 
-NAME		=	nanotekspice
+INCLUDE =	src/app/			\
+			src/component/		\
+			src/factory/		\
+			src/inheritence		\
+			src/parsing
 
-SRC			= main.cpp 
 
-# for add a new path : VPATH += src/new_path/
-VPATH		=	src/
+NAME	=	nanotekspice
 
-vpath %.cpp $(VPATH)
+CPPFLAGS = $(INCLUDE:%=-I%) -std=c++20 -Wall -Wextra -Werror
 
-BUILD_DIR	=	build
+CPPFLAGSTEST = -lcriterion --coverage
 
-OBJ			=	$(SRC:%.cpp=$(BUILD_DIR)/%.o)
+OBJ	=	$(SRC:.cpp=.o)
 
-IFLAGS		=	-I ./src
-CFLAGS		=	-Wall -Wextra -Werror $(IFLAGS) -g
-LDFLAGS		=
-CFLAGSTEST += -lcriterion --coverage
-
-TMP_FILES	=	*.gcno					\
-    			*.gcda					\
-    			vgcore.*				\
-    			*.log					\
-    			temp.txt				\
-    			-r $(BUILD_DIR)			\
-    			$(OBJ)
-
-# ------ DISPLAY -------- #
-
-ECHO 		= echo
-C_RESET 	= \033[00m
-C_RED		= \e[31m
-C_GREEN 	= \e[32m
-C_YELLOW 	= \e[33m
-C_BLUE		= \e[34m
-C_PINK		= \e[35m
-C_FULL_RED	= \e[41m
-# ----------------------- #
-
-all:		$(NAME)
-
-%:
-	@ $(ECHO) "$(C_RED)|==========> RULE NOT FOUND. <==========|$(C_RESET)"
-
-%.cpp:
-	@ $(ECHO) "$(C_RED)[KO] -> $@$(C_RESET)"
-
-$(BUILD_DIR)/%.o: %.cpp
-	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) -c $< -o $@
-	@ $(ECHO) "$(C_GREEN)[OK] -> $<$(C_RESET)"
+all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	@ $(CC) -o $@ $? $(LDFLAGS)
-	@ $(ECHO) "$(C_PINK)|==========> $(NAME) compiled. <==========|$(C_RESET)"
+	g++ -o $(NAME) $(OBJ)
 
 clean:
-	@ $(RM) $(TMP_FILES)
+	rm -f $(OBJ)
 
-fclean:		clean
-	@ $(RM) $(NAME)
+fclean:	clean
+	rm -f $(NAME)
+	rm -f *.gcno
+	rm -f *.gcda
 
-re:		fclean all
+re: fclean all
 
 tests_run:
-	$(CC) -o nanotekspice \
-	tests/unit_tests.cpp -I include/ $(LDFLAGS) $(CFLAGS) $(CFLAGSTEST)
+	g++ -o nanotekspice \
+	tests/unit_tests.cpp $(CPPFLAGSTEST)
 	-./nanotekspice
 
-debug: CFLAGS += -g
-debug: CFLAGS += -Werror
-debug: all
-
-.PHONY: all re clean fclean  debug
+.PHONY: all clean fclean re
