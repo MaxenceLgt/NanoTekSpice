@@ -105,7 +105,7 @@ void Circuit::display()
     return;
 }
 
-void Circuit::compute()
+void Circuit::computeComponents()
 {
     nts::Tristate computeValue = nts::Tristate::Undefined;
 
