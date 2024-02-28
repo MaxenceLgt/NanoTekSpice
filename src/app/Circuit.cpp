@@ -76,7 +76,7 @@ void Circuit::display()
     for (auto elm : input) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
         if (component != nullptr) {
-            computeValue = component->compute(this->_tick);
+            computeValue = component->compute(this->_tick + 1);
         }
         if (computeValue == -1) {
             std::cout << "  " << elm << ": " << "U" << std::endl;
@@ -92,7 +92,7 @@ void Circuit::display()
     for (auto elm : output) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
         if (component != nullptr) {
-            computeValue = component->compute(this->_tick);
+            computeValue = component->compute(this->_tick + 1);
         }
         if (computeValue == -1) {
             std::cout << "  " << elm << ": " << "U" << std::endl;
@@ -112,9 +112,8 @@ void Circuit::compute()
     std::list<std::string> input = this->parser.getinput();
     for (auto elm : input) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
-        if (component != nullptr) {
-            computeValue = component->compute(1);
-        }
+        if (component != nullptr)
+            computeValue = component->compute(this->_tick + 1);
         if (computeValue == -1) {
             computeValue = nts::Tristate::Undefined;
             continue;
@@ -125,9 +124,8 @@ void Circuit::compute()
     output.sort();
     for (auto elm : output) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
-        if (component != nullptr) {
-            computeValue = component->compute(1);
-        }
+        if (component != nullptr)
+            computeValue = component->compute(this->_tick + 1);
         if (computeValue == -1) {
             computeValue = nts::Tristate::Undefined;
             continue;
