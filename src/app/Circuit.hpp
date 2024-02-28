@@ -31,6 +31,8 @@ class Circuit : public AComponent {
         void simulate(std::size_t tick) override;
     public:
         nts::IComponent *getAtPin(std::size_t pin);
+    public:
+        Circuit &operator=(const nts::Tristate &state) override;
     private:
         std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> _mapComponent;
         std::unordered_map<std::string, std::size_t> _linkIndex;

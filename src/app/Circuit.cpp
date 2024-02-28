@@ -126,3 +126,9 @@ std::size_t Circuit::gettick()
 {
     return _tick;
 }
+
+Circuit &Circuit::operator=(const nts::Tristate &state)
+{
+    (void)state;
+    throw AComponent::ComponentError("Circuit : Trying to change state of circuit component");
+}

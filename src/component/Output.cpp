@@ -37,3 +37,9 @@ nts::Tristate Output::compute(std::size_t tick)
     }
     return this->_actualState;
 }
+
+Output &Output::operator=(const nts::Tristate &state)
+{
+    (void)state;
+    throw AComponent::ComponentError("True : Trying to change state of true component");
+}

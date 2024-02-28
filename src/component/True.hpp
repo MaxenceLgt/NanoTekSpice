@@ -15,5 +15,7 @@ class True : public AComponent {
         True(const True &obj);
         ~True();
     public:
+        True &operator=(const nts::Tristate &state) override;
+    public:
         nts::Tristate compute(std::size_t tick) override;
 };
