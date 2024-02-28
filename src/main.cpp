@@ -22,6 +22,7 @@ int main(int argc, char  **argv)
     try {
         std::shared_ptr<Circuit> circuit = std::make_shared<Circuit>();
         circuit->circuitparsing(argv[1]);
+        circuit->compute();
 
         std::signal(SIGINT, [](int /*signum*/) {
             flag.clear();

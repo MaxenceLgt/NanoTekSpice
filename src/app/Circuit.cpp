@@ -101,6 +101,38 @@ void Circuit::display()
     return;
 }
 
+void Circuit::compute()
+{
+    nts::Tristate computeValue = nts::Tristate::Undefined;
+
+    std::list<std::string> input = this->parser.getinput();
+    for (auto elm : input) {
+        std::shared_ptr<nts::IComponent> component = findComponent(elm);
+        if (component != nullptr) {
+            computeValue = component->compute(1);
+        }
+        if (computeValue == -1) {
+            computeValue = nts::Tristate::Undefined;
+            continue;
+        }
+        computeValue = nts::Tristate::Undefined;
+    }
+    std::list<std::string> output = this->parser.getoutput();
+    output.sort();
+    for (auto elm : output) {
+        std::shared_ptr<nts::IComponent> component = findComponent(elm);
+        if (component != nullptr) {
+            computeValue = component->compute(1);
+        }
+        if (computeValue == -1) {
+            computeValue = nts::Tristate::Undefined;
+            continue;
+        }
+        computeValue = nts::Tristate::Undefined;
+    }
+    return;
+}
+
 Parsing Circuit::getparser()
 {
     return this->parser;

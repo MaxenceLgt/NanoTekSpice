@@ -27,6 +27,7 @@ class Circuit : public AComponent {
         std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> getmapcomp();
         std::unordered_map<std::string, std::size_t> getmaplink();
         void display();
+        void compute();
     public:
         void simulate(std::size_t tick) override;
     public:
