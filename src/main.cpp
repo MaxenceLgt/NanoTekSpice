@@ -35,6 +35,9 @@ int main(int argc, char  **argv)
             std::cout << "> ";
             std::getline(std::cin, commande);
 
+            if (std::cin.eof()) {
+                break;
+            }
             if (commande == "exit")
                 break;
             if (commande == "display") {
@@ -70,7 +73,7 @@ int main(int argc, char  **argv)
                     *component = nts::Tristate::Undefined;
                 }
             }
-            }
+        }
         return 0;
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
