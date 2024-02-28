@@ -7,6 +7,10 @@
 
 #include <iostream>
 #include "Circuit.hpp"
+#include <csignal>
+#include <atomic>
+
+std::atomic_flag flag = ATOMIC_FLAG_INIT;
 
 Circuit::Circuit()
 {
@@ -163,4 +167,59 @@ Circuit &Circuit::operator=(const nts::Tristate &state)
 {
     (void)state;
     throw AComponent::ComponentError("Circuit : Trying to change state of circuit component");
+}
+
+void Circuit::run()
+{
+    std::signal(SIGINT, [](int /*signum*/) {
+        flag.clear();
+    });
+    while (true) {
+        std::regex pattern(R"((\w+)=(\w+)?\n?$)");
+
+        std::smatch matches;
+        std::string commande;
+
+        std::cout << "> ";
+        std::getline(std::cin, commande);
+
+        if (std::cin.eof()) {
+            break;
+        }
+        if (commande == "exit")
+            break;
+        if (commande == "display") {
+            this->display();
+            continue;
+        }
+        if (commande == "loop") {
+            while (flag.test_and_set()) {
+                this->simulate(this->gettick() + 1);
+                this->display();
+            }
+            continue;
+        }
+        if (commande == "simulate") {
+            this->simulate(this->gettick() + 1);
+            continue;
+        }
+        if (std::regex_search(commande, matches, pattern)) {
+            if (this->findComponent(matches[1]) == nullptr) {
+                continue;
+            }
+            if (matches[2] != "0" && matches[2] != "1" && matches[2] != "U") {
+                continue;
+            }
+            std::shared_ptr<nts::IComponent> component = this->findComponent(matches[1]);
+            if (matches[2] == "0") {
+                *component = nts::Tristate::False;
+            }
+            if (matches[2] == "1") {
+                *component = nts::Tristate::True;
+            }
+            if (matches[2] == "U") {
+                *component = nts::Tristate::Undefined;
+            }
+        }
+    }
 }
