@@ -69,6 +69,8 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
             this->output.push_back(matches[2]);
         if (matches[1] == "input")
             this->input.push_back(matches[2]);
+        if (matches[1] == "clock")
+            this->input.push_back(matches[2]);
         if (_factory.isMappedComponent(matches[1]) == true) {
             _map[matches[2]] = _factory.createComponent(matches[1]);
             _linkIndex[matches[2]] = nbr;
