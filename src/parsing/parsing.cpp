@@ -66,11 +66,11 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
         if (mapContain(matches[2], _map))
             throw Parsing::ParsingError("parsingChipset : same name definition.");
         if (matches[1] == "output")
-            this->output.push_back(matches[2]);
+            this->outputs.push_back(matches[2]);
         if (matches[1] == "input")
-            this->input.push_back(matches[2]);
+            this->inputs.push_back(matches[2]);
         if (matches[1] == "clock")
-            this->input.push_back(matches[2]);
+            this->inputs.push_back(matches[2]);
         if (_factory.isMappedComponent(matches[1]) == true) {
             _map[matches[2]] = _factory.createComponent(matches[1]);
             _linkIndex[matches[2]] = nbr;
@@ -100,12 +100,12 @@ bool Parsing::mapContain(std::string componentName, std::unordered_map<std::stri
     return false;
 }
 
-std::list<std::string> Parsing::getinput()
+std::list<std::string> Parsing::getInputs()
 {
-    return this->input;
+    return this->inputs;
 }
 
-std::list<std::string> Parsing::getoutput()
+std::list<std::string> Parsing::getOutputs()
 {
-    return this->output;
+    return this->outputs;
 }

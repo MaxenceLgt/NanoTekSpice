@@ -6,20 +6,15 @@
 */
 
 #include <iostream>
-#include "ComponentFactory.hpp"
-#include "IComponent.hpp"
-#include "AComponent.hpp"
-#include "Circuit.hpp"
+#include "Shell.hpp"
 
 int main(int argc, char  **argv)
 {
     if (argc != 2)
         return 84;
     try {
-        std::shared_ptr<Circuit> circuit = std::make_shared<Circuit>();
-        circuit->circuitparsing(argv[1]);
-        circuit->computeComponents();
-        circuit->run();
+        Shell shell;
+        shell.run(argv[1]);
         return 0;
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

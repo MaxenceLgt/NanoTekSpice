@@ -16,5 +16,6 @@ class Output : public AComponent {
         ~Output();
     public:
         nts::Tristate compute(std::size_t tick) override;
+    public:
         Output &operator=(const nts::Tristate &state) override;
 };

@@ -5,23 +5,25 @@
 ## Makefile
 ##
 
-SRC	=	src/main.cpp				\
-		src/app/Circuit.cpp			\
-		src/component/Clock.cpp		\
-		src/component/False.cpp		\
-		src/component/True.cpp		\
-		src/component/Nand.cpp		\
-		src/component/Output.cpp	\
-		src/component/Input.cpp		\
-		src/factory/ComponentFactory.cpp	\
-		src/inheritence/AComponent.cpp		\
-		src/parsing/parsing.cpp
+SRC	=	src/main.cpp							\
+		src/circuit/Circuit.cpp					\
+		src/component/Clock.cpp					\
+		src/component/False.cpp					\
+		src/component/True.cpp					\
+		src/component/Nand.cpp					\
+		src/component/Output.cpp				\
+		src/component/Input.cpp					\
+		src/factory/ComponentFactory.cpp		\
+		src/abstract/AComponent.cpp				\
+		src/parsing/parsing.cpp					\
+		src/shell/Shell.cpp
 
-INCLUDE =	src/app/			\
+INCLUDE =	src/circuit/		\
 			src/component/		\
 			src/factory/		\
-			src/inheritence		\
-			src/parsing
+			src/abstract		\
+			src/parsing			\
+			src/shell
 
 
 NAME	=	nanotekspice
