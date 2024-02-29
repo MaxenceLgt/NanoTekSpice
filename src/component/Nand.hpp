@@ -16,5 +16,6 @@ class Nand : public AComponent {
         ~Nand();
     public:
         nts::Tristate compute(std::size_t tick) override;
+    public:
         Nand &operator=(const nts::Tristate &state) override;
 };

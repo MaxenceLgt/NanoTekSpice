@@ -10,7 +10,6 @@
 #include <csignal>
 #include <atomic>
 
-std::atomic_flag flag = ATOMIC_FLAG_INIT;
 
 Circuit::Circuit()
 {
@@ -71,9 +70,9 @@ void Circuit::display()
 
     std::cout << "tick: " << this->_tick << std::endl;
     std::cout << "input(s):" << std::endl;
-    std::list<std::string> input = this->parser.getinput();
-    input.sort();
-    for (auto elm : input) {
+    std::list<std::string> inputs = this->parser.getInputs();
+    inputs.sort();
+    for (auto elm : inputs) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
         if (component != nullptr) {
             computeValue = component->compute(this->_tick + 1);
@@ -87,9 +86,9 @@ void Circuit::display()
         computeValue = nts::Tristate::Undefined;
     }
     std::cout << "output(s):" << std::endl;
-    std::list<std::string> output = this->parser.getoutput();
-    output.sort();
-    for (auto elm : output) {
+    std::list<std::string> outputs = this->parser.getOutputs();
+    outputs.sort();
+    for (auto elm : outputs) {
         std::shared_ptr<nts::IComponent> component = findComponent(elm);
         if (component != nullptr) {
             computeValue = component->compute(this->_tick + 1);
@@ -105,58 +104,28 @@ void Circuit::display()
     return;
 }
 
-void Circuit::computeComponents()
-{
-    nts::Tristate computeValue = nts::Tristate::Undefined;
-
-    std::list<std::string> input = this->parser.getinput();
-    for (auto elm : input) {
-        std::shared_ptr<nts::IComponent> component = findComponent(elm);
-        if (component != nullptr)
-            computeValue = component->compute(this->_tick + 1);
-        if (computeValue == -1) {
-            computeValue = nts::Tristate::Undefined;
-            continue;
-        }
-        computeValue = nts::Tristate::Undefined;
-    }
-    std::list<std::string> output = this->parser.getoutput();
-    output.sort();
-    for (auto elm : output) {
-        std::shared_ptr<nts::IComponent> component = findComponent(elm);
-        if (component != nullptr)
-            computeValue = component->compute(this->_tick + 1);
-        if (computeValue == -1) {
-            computeValue = nts::Tristate::Undefined;
-            continue;
-        }
-        computeValue = nts::Tristate::Undefined;
-    }
-    return;
-}
-
-Parsing Circuit::getparser()
+Parsing Circuit::getParser()
 {
     return this->parser;
 }
 
-std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> Circuit::getmapcomp()
+std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> Circuit::getMapComponent()
 {
     return this->_mapComponent;
 }
 
-std::unordered_map<std::string, std::size_t> Circuit::getmaplink()
+std::unordered_map<std::string, std::size_t> Circuit::getMapLinks()
 {
     return this->_linkIndex;
 }
 
-void Circuit::circuitparsing(std::string filename)
+void Circuit::fillCircuit(std::string filename)
 {
     this->parser.parsingFile(filename, _mapComponent, _linkIndex);
     return;
 }
 
-std::size_t Circuit::gettick()
+std::size_t Circuit::getTick()
 {
     return _tick;
 }
@@ -165,59 +134,4 @@ Circuit &Circuit::operator=(const nts::Tristate &state)
 {
     (void)state;
     throw AComponent::ComponentError("Circuit : Trying to change state of circuit component");
-}
-
-void Circuit::run()
-{
-    std::signal(SIGINT, [](int /*signum*/) {
-        flag.clear();
-    });
-    while (true) {
-        std::regex pattern(R"((\w+)=(\w+)?\n?$)");
-
-        std::smatch matches;
-        std::string commande;
-
-        std::cout << "> ";
-        std::getline(std::cin, commande);
-
-        if (std::cin.eof()) {
-            break;
-        }
-        if (commande == "exit")
-            break;
-        if (commande == "display") {
-            this->display();
-            continue;
-        }
-        if (commande == "loop") {
-            while (flag.test_and_set()) {
-                this->simulate(this->gettick() + 1);
-                this->display();
-            }
-            continue;
-        }
-        if (commande == "simulate") {
-            this->simulate(this->gettick() + 1);
-            continue;
-        }
-        if (std::regex_search(commande, matches, pattern)) {
-            if (this->findComponent(matches[1]) == nullptr) {
-                continue;
-            }
-            if (matches[2] != "0" && matches[2] != "1" && matches[2] != "U") {
-                continue;
-            }
-            std::shared_ptr<nts::IComponent> component = this->findComponent(matches[1]);
-            if (matches[2] == "0") {
-                *component = nts::Tristate::False;
-            }
-            if (matches[2] == "1") {
-                *component = nts::Tristate::True;
-            }
-            if (matches[2] == "U") {
-                *component = nts::Tristate::Undefined;
-            }
-        }
-    }
 }

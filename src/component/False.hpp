@@ -16,5 +16,6 @@ class False : public AComponent {
         ~False();
     public:
         nts::Tristate compute(std::size_t tick) override;
+    public:
         False &operator=(const nts::Tristate &state) override;
 };

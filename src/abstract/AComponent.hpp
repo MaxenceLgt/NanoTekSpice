@@ -16,7 +16,7 @@ class AComponent : public nts::IComponent {
         AComponent();
         ~AComponent();
     public:
-        virtual nts::Tristate compute (std::size_t tick) override;
+        virtual nts::Tristate compute(std::size_t tick) override;
         void simulate(std::size_t tick) override;
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin, bool isPassed) override;
     public:

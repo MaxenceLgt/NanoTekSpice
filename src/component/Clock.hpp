@@ -17,6 +17,7 @@ class Clock : public AComponent {
     public:
         nts::Tristate compute(std::size_t tick) override;
         void simulate(std::size_t tick) override;
+    public:
         Clock &operator=(const nts::Tristate &state) override;
     private:
         nts::Tristate _futurState;

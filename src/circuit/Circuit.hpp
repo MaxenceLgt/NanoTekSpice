@@ -19,20 +19,17 @@ class Circuit : public AComponent {
         Circuit(const std::string &component);
         ~Circuit();
     public:
+        Parsing getParser();
+        std::size_t getTick();
+        std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> getMapComponent();
+        std::unordered_map<std::string, std::size_t> getMapLinks();
         std::shared_ptr<nts::IComponent> findComponent(const std::string name);
+        nts::IComponent *getAtPin(std::size_t pin);
         void addComponent(std::shared_ptr<nts::IComponent> component, std::string name);
-        Parsing getparser();
-        std::size_t gettick();
-        void circuitparsing(std::string filename);
-        std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> getmapcomp();
-        std::unordered_map<std::string, std::size_t> getmaplink();
+        void fillCircuit(std::string filename);
         void display();
-        void computeComponents();
-        void run();
     public:
         void simulate(std::size_t tick) override;
-    public:
-        nts::IComponent *getAtPin(std::size_t pin);
     public:
         Circuit &operator=(const nts::Tristate &state) override;
     private:

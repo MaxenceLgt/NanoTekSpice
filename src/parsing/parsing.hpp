@@ -25,15 +25,14 @@ class Parsing
     public:
         Parsing();
         ~Parsing();
-
     public:
         void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::unordered_map<std::string, std::size_t> &_linkIndex);
         void parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map,int nbr, std::unordered_map<std::string, std::size_t> &_linkIndex);
         void parsingLink(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
         bool mapContain(std::string componentName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
-        std::list<std::string> getinput();
-        std::list<std::string> getoutput();
-
+        std::list<std::string> getInputs();
+        std::list<std::string> getOutputs();
+    public:
         class ParsingError : public std::exception {
             public:
                 ParsingError(std::string msg) : _msg(msg) {};
@@ -43,9 +42,8 @@ class Parsing
             private:
                 std::string _msg;
         };
-
     protected:
         ComponentFactory _factory;
-        std::list<std::string> input;
-        std::list<std::string> output;
+        std::list<std::string> inputs;
+        std::list<std::string> outputs;
 };
