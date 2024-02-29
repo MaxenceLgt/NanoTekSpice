@@ -44,9 +44,13 @@ void Parsing::parsingFile(std::string fileName, std::unordered_map<std::string, 
         if (level == 1) {
             nbr++;
             parsingChipset(ligne, _map, nbr, _linkIndex);
+            continue;
         }
-        if (level == 2)
+        if (level == 2) {
             parsingLink(ligne, _map);
+            continue;
+        }
+        throw Parsing::ParsingError("parsingFile : Bad line.");
     }
     if (_map.empty())
         throw Parsing::ParsingError("parsingFile : Nocomponent.");
@@ -64,8 +68,6 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
         if (matches[1] == "output")
             this->output.push_back(matches[2]);
         if (matches[1] == "input")
-            this->input.push_back(matches[2]);
-        if (matches[1] == "clock")
             this->input.push_back(matches[2]);
         if (_factory.isMappedComponent(matches[1]) == true) {
             _map[matches[2]] = _factory.createComponent(matches[1]);
