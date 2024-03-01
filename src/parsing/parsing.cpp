@@ -90,7 +90,9 @@ void Parsing::parsingLink(std::string ligne, std::unordered_map<std::string, std
         if (!this->mapContain(matches[1], _map) || !this->mapContain(matches[3], _map))
             throw Parsing::ParsingError("parsingLink : inexistant Component.");
         _map[matches[1]]->setLink(std::stoi(matches[2]), *_map[matches[3]], std::stoi(matches[4]), 0);
+        return;
     }
+    throw Parsing::ParsingError("parsingLink : bad link.");
 }
 
 bool Parsing::mapContain(std::string componentName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map) {
