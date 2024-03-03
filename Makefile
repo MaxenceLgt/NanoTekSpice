@@ -50,8 +50,8 @@ fclean:	clean
 re: fclean all
 
 tests_run:
-	g++ -o nanotekspice \
-	tests/unit_tests.cpp $(CPPFLAGSTEST)
-	-./nanotekspice
+	g++ -o unit_tests $(filter-out src/main.cpp, $(SRC)) \
+	tests/unit_tests.cpp -I include/ $(CPPFLAGSTEST) $(CPPFLAGS)
+	-./unit_tests
 
 .PHONY: all clean fclean re
