@@ -22,10 +22,11 @@
 
 class Parsing
 {
-    public:
+    public: // Ctor Dtor
         Parsing();
+        Parsing(const Parsing &parsing);
         ~Parsing();
-    public:
+    public: // Member functions
         void parsingFile(std::string fileName, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map, std::unordered_map<std::string, std::size_t> &_linkIndex);
         void parsingChipset(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map,int nbr, std::unordered_map<std::string, std::size_t> &_linkIndex);
         void parsingLink(std::string ligne, std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> &_map);
@@ -33,6 +34,8 @@ class Parsing
         std::list<std::string> getInputs();
         std::list<std::string> getOutputs();
     public:
+        Parsing &operator=(const Parsing &object);
+    public: // Nested Error Class
         class ParsingError : public std::exception {
             public:
                 ParsingError(std::string msg) : _msg(msg) {};
@@ -42,7 +45,7 @@ class Parsing
             private:
                 std::string _msg;
         };
-    protected:
+    protected: // Class variables
         ComponentFactory _factory;
         std::list<std::string> inputs;
         std::list<std::string> outputs;

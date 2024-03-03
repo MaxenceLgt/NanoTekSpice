@@ -10,12 +10,21 @@
 
 ComponentFactory::ComponentFactory()
 {
-    this->_creationMap["input"] = []() {return std::make_shared<Input>();};
-    this->_creationMap["output"] = []() {return std::make_shared<Output>();};
-    this->_creationMap["true"] = []() {return std::make_shared<True>();};;
-    this->_creationMap["false"] = []() {return std::make_shared<False>();};
-    this->_creationMap["clock"] = []() {return std::make_shared<Clock>();};
-    this->_creationMap["nand"] = []() {return std::make_shared<Nand>();};
+    this->_creationMap["input"] = []() {return std::make_shared<InputComponent>();};
+    this->_creationMap["output"] = []() {return std::make_shared<OutputComponent>();};
+    this->_creationMap["true"] = []() {return std::make_shared<TrueComponent>();};;
+    this->_creationMap["false"] = []() {return std::make_shared<FalseComponent>();};
+    this->_creationMap["clock"] = []() {return std::make_shared<ClockComponent>();};
+    this->_creationMap["nand"] = []() {return std::make_shared<NandComponent>();};
+}
+
+ComponentFactory::ComponentFactory(const ComponentFactory &obj)
+{
+    this->_creationMap = obj._creationMap;
+}
+
+ComponentFactory::~ComponentFactory()
+{
 }
 
 bool ComponentFactory::isMappedComponent(const std::string &type)
@@ -36,4 +45,12 @@ std::shared_ptr<nts::IComponent> ComponentFactory::createComponent(const std::st
 std::unordered_map<std::string, std::function<std::shared_ptr<nts::IComponent>()>> ComponentFactory::getMap() const
 {
     return this->_creationMap;
+}
+
+ComponentFactory &ComponentFactory::operator=(const ComponentFactory &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_creationMap = obj._creationMap;
+    return *this;
 }

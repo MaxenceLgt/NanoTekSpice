@@ -8,23 +8,25 @@
 #include <iostream>
 #include "Input.hpp"
 
-Input::Input() : AComponent()
+InputComponent::InputComponent() : AComponent()
 {
     this->_actualState = nts::Tristate::Undefined;
     this->_futurState = nts::Tristate::Undefined;
 }
 
-Input::Input(const Input &obj)
+InputComponent::InputComponent(const InputComponent &obj) : AComponent()
 {
+    this->_links = obj._links;
+    this->_tick = obj._tick;
     this->_actualState = obj._actualState;
     this->_futurState = obj._futurState;
 }
 
-Input::~Input()
+InputComponent::~InputComponent()
 {
 }
 
-nts::Tristate Input::compute(std::size_t tick)
+nts::Tristate InputComponent::compute(std::size_t tick)
 {
     if (this->_tick == tick)
         return this->_actualState;
@@ -39,7 +41,7 @@ nts::Tristate Input::compute(std::size_t tick)
     return this->_actualState;
 }
 
-void Input::simulate(std::size_t tick)
+void InputComponent::simulate(std::size_t tick)
 {
     (void)tick;
     if (_links.size() > 1)
@@ -47,9 +49,20 @@ void Input::simulate(std::size_t tick)
     this->_actualState = this->_futurState;
 }
 
-Input &Input::operator=(const nts::Tristate &state)
+InputComponent &InputComponent::operator=(const nts::Tristate &state)
 {
     if (this->_links.size() <= 1)
         this->_futurState = state;
+    return *this;
+}
+
+InputComponent &InputComponent::operator=(const InputComponent &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_actualState = obj._actualState;
+    this->_futurState = obj._futurState;
+    this->_links = obj._links;
+    this->_tick = obj._tick;
     return *this;
 }

@@ -12,6 +12,11 @@ Shell::Shell()
 {
 }
 
+Shell::Shell(const Shell &obj)
+{
+    this->_mainCircuit = obj._mainCircuit;
+}
+
 Shell::~Shell()
 {
 }
@@ -19,7 +24,7 @@ Shell::~Shell()
 void Shell::run(const std::string file)
 {
     std::signal(SIGINT, [](int /*signum*/) { _flag.clear();});
-    this->_mainCircuit.fillCircuit(file);
+    this->_mainCircuit.fillCircuitComponent(file);
     this->computeComponents();
     while (true) {
         std::regex pattern(R"((\w+)=(\w+)?\n?$)");
@@ -98,4 +103,12 @@ void Shell::computeComponents()
         computeValue = nts::Tristate::Undefined;
     }
     return;
+}
+
+Shell &Shell::operator=(const Shell &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_mainCircuit = obj._mainCircuit;
+    return *this;
 }

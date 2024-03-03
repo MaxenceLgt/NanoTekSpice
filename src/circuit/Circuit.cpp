@@ -2,29 +2,39 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-REN-4-1-tekspice-arthur.doriel [WSL: Ubuntu]
 ** File description:
-** Circuit
+** CircuitComponent
 */
 
 #include <iostream>
-#include "Circuit.hpp"
 #include <csignal>
 #include <atomic>
+#include "Circuit.hpp"
 
 
-Circuit::Circuit()
+CircuitComponent::CircuitComponent() : AComponent()
 {
 }
 
-Circuit::Circuit(const std::string &component)
+CircuitComponent::CircuitComponent(const CircuitComponent &obj) : AComponent()
+{
+    this->_actualState = obj._actualState;
+    this->parser = obj.parser;
+    this->_linkIndex = obj._linkIndex;
+    this->_links = obj._links;
+    this->_mapComponent = obj._mapComponent;
+    this->_tick = obj._tick;
+}
+
+CircuitComponent::CircuitComponent(const std::string &component)
 {
     parser.parsingFile("src/config/" + component + "_config.nts", this->_mapComponent, this->_linkIndex);
 }
 
-Circuit::~Circuit()
+CircuitComponent::~CircuitComponent()
 {
 }
 
-std::shared_ptr<nts::IComponent> Circuit::findComponent(const std::string name)
+std::shared_ptr<nts::IComponent> CircuitComponent::findComponent(const std::string name)
 {
     auto key = this->_mapComponent.find(name);
     if (key == this->_mapComponent.end()) {
@@ -33,14 +43,14 @@ std::shared_ptr<nts::IComponent> Circuit::findComponent(const std::string name)
     return key->second;
 }
 
-void Circuit::addComponent(std::shared_ptr<nts::IComponent> component, std::string name)
+void CircuitComponent::addComponent(std::shared_ptr<nts::IComponent> component, std::string name)
 {
     if (component == nullptr)
-        throw AComponent::ComponentError("Circuit: Trying to add nullptr to map!");
+        throw AComponent::ComponentError("CircuitComponent: Trying to add nullptr to map!");
     this->_mapComponent[name] = component;
 }
 
-void Circuit::simulate(std::size_t tick)
+void CircuitComponent::simulate(std::size_t tick)
 {
     this->_tick = tick;
     for (auto pair : this->_mapComponent)
@@ -48,7 +58,7 @@ void Circuit::simulate(std::size_t tick)
             pair.second->simulate(tick);
 }
 
-nts::IComponent *Circuit::getAtPin(std::size_t pin)
+nts::IComponent *CircuitComponent::getAtPin(std::size_t pin)
 {
     std::string componentName;
 
@@ -64,7 +74,7 @@ nts::IComponent *Circuit::getAtPin(std::size_t pin)
     return pair->second.get();
 }
 
-void Circuit::display()
+void CircuitComponent::display()
 {
     nts::Tristate computeValue = nts::Tristate::Undefined;
 
@@ -104,34 +114,47 @@ void Circuit::display()
     return;
 }
 
-Parsing Circuit::getParser()
+Parsing CircuitComponent::getParser()
 {
     return this->parser;
 }
 
-std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> Circuit::getMapComponent()
+std::unordered_map<std::string, std::shared_ptr<nts::IComponent>> CircuitComponent::getMapComponent()
 {
     return this->_mapComponent;
 }
 
-std::unordered_map<std::string, std::size_t> Circuit::getMapLinks()
+std::unordered_map<std::string, std::size_t> CircuitComponent::getMapLinks()
 {
     return this->_linkIndex;
 }
 
-void Circuit::fillCircuit(std::string filename)
+void CircuitComponent::fillCircuitComponent(std::string filename)
 {
     this->parser.parsingFile(filename, _mapComponent, _linkIndex);
     return;
 }
 
-std::size_t Circuit::getTick()
+std::size_t CircuitComponent::getTick()
 {
     return _tick;
 }
 
-Circuit &Circuit::operator=(const nts::Tristate &state)
+CircuitComponent &CircuitComponent::operator=(const nts::Tristate &state)
 {
     (void)state;
-    throw AComponent::ComponentError("Circuit : Trying to change state of circuit component");
+    throw AComponent::ComponentError("CircuitComponent : Trying to change state of CircuitComponent component");
+}
+
+CircuitComponent &CircuitComponent::operator=(const CircuitComponent &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_actualState = obj._actualState;
+    this->parser = obj.parser;
+    this->_linkIndex = obj._linkIndex;
+    this->_links = obj._links;
+    this->_mapComponent = obj._mapComponent;
+    this->_tick = obj._tick;
+    return *this;
 }

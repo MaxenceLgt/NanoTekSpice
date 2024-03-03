@@ -2,27 +2,29 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-REN-4-1-tekspice-arthur.doriel [WSL: Ubuntu]
 ** File description:
-** Nand
+** NandComponent
 */
 
 #include <iostream>
 #include "Nand.hpp"
 
-Nand::Nand() : AComponent()
+NandComponent::NandComponent() : AComponent()
 {
     this->_actualState = nts::Tristate::Undefined;
 }
 
-Nand::Nand(const Nand &obj)
+NandComponent::NandComponent(const NandComponent &obj) : AComponent()
 {
     this->_links = obj._links;
+    this->_actualState = obj._actualState;
+    this->_tick = obj._tick;
 }
 
-Nand::~Nand()
+NandComponent::~NandComponent()
 {
 }
 
-nts::Tristate Nand::compute(std::size_t tick)
+nts::Tristate NandComponent::compute(std::size_t tick)
 {
     nts::Tristate a = nts::Tristate::Undefined;
     nts::Tristate b = nts::Tristate::Undefined;
@@ -54,8 +56,18 @@ nts::Tristate Nand::compute(std::size_t tick)
     return this->_actualState;
 }
 
-Nand &Nand::operator=(const nts::Tristate &state)
+NandComponent &NandComponent::operator=(const nts::Tristate &state)
 {
     (void)state;
     throw AComponent::ComponentError("True : Trying to change state of true component");
+}
+
+NandComponent &NandComponent::operator=(const NandComponent &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_actualState = obj._actualState;
+    this->_links = obj._links;
+    this->_tick = obj._tick;
+    return *this;
 }

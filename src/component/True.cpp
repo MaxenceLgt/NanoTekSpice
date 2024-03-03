@@ -2,33 +2,45 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-REN-4-1-tekspice-arthur.doriel [WSL: Ubuntu]
 ** File description:
-** True
+** TrueComponent
 */
 
 #include "True.hpp"
 
-True::True() : AComponent()
+TrueComponent::TrueComponent() : AComponent()
 {
     this->_actualState = nts::Tristate::True;
 }
 
-True::True(const True &obj)
+TrueComponent::TrueComponent(const TrueComponent &obj) : AComponent()
 {
     this->_links = obj._links;
+    this->_actualState = obj._actualState;
+    this->_tick = obj._tick;
 }
 
-True::~True()
+TrueComponent::~TrueComponent()
 {
 }
 
-nts::Tristate True::compute (std::size_t tick)
+nts::Tristate TrueComponent::compute (std::size_t tick)
 {
     this->_tick = tick;
     return this->_actualState;
 }
 
-True &True::operator=(const nts::Tristate &state)
+TrueComponent &TrueComponent::operator=(const nts::Tristate &state)
 {
     (void)state;
-    throw AComponent::ComponentError("True : Trying to change state of true component");
+    throw AComponent::ComponentError("TrueComponent : Trying to change state of TrueComponent component");
+}
+
+TrueComponent &TrueComponent::operator=(const TrueComponent &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_actualState = obj._actualState;
+    this->_links = obj._links;
+    this->_tick = obj._tick;
+    return *this;
 }

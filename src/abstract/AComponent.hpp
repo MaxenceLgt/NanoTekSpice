@@ -12,16 +12,16 @@
 #include <unordered_map>
 
 class AComponent : public nts::IComponent {
-    protected:
+    protected: // Ctor Dtor
         AComponent();
         ~AComponent();
-    public:
+    public: // Member functions override
         virtual nts::Tristate compute(std::size_t tick) override;
         void simulate(std::size_t tick) override;
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin, bool isPassed) override;
-    public:
+    public: // Operator overload
         AComponent &operator=(const nts::Tristate &state) override;
-    public:
+    public: // Error Class
         class ComponentError : public std::exception {
             public:
                 ComponentError(std::string msg) : _msg(msg) {};
@@ -31,7 +31,7 @@ class AComponent : public nts::IComponent {
             private:
                 std::string _msg;
         };
-    protected:
+    protected: // Class variables
         std::unordered_map<std::size_t, std::vector<nts::IComponent *>> _links;
         nts::Tristate _actualState;
         std::size_t _tick;

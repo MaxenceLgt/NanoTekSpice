@@ -1,21 +1,22 @@
 /*
 ** EPITECH PROJECT, 2024
-** Output
+** OutputComponent
 ** File description:
-** Output
+** OutputComponent
 */
 
 #pragma once
 
 #include "AComponent.hpp"
 
-class Output : public AComponent {
-    public:
-        Output();
-        Output(const Output &obj);
-        ~Output();
-    public:
+class OutputComponent : public AComponent {
+    public: // Ctor Dtor
+        OutputComponent();
+        OutputComponent(const OutputComponent &obj);
+        ~OutputComponent();
+    public: // Member function override
         nts::Tristate compute(std::size_t tick) override;
-    public:
-        Output &operator=(const nts::Tristate &state) override;
+    public: // Operator overload
+        OutputComponent &operator=(const nts::Tristate &state) override;
+        OutputComponent &operator=(const OutputComponent &obj);
 };

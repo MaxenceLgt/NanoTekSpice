@@ -9,16 +9,17 @@
 
 #include "AComponent.hpp"
 
-class Input : public AComponent {
-    public:
-        Input();
-        Input(const Input &obj);
-        ~Input();
-    public:
+class InputComponent : public AComponent {
+    public: // Ctor Dtor
+        InputComponent();
+        InputComponent(const InputComponent &obj);
+        ~InputComponent();
+    public: // Member function override
         nts::Tristate compute(std::size_t pin) override;
         void simulate(std::size_t tick) override;
-    public:
-        Input &operator=(const nts::Tristate &state) override;
-    private:
+    public: // Operator overload
+        InputComponent &operator=(const nts::Tristate &state) override;
+        InputComponent &operator=(const InputComponent &obj);
+    private: // Class variables
         nts::Tristate _futurState;
 };

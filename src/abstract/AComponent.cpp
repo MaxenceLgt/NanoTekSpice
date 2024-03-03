@@ -35,15 +35,15 @@ void AComponent::setLink(std::size_t pin, nts::IComponent &other, std::size_t ot
     nts::IComponent *component1 = nullptr;
     std::size_t pin2 = otherPin;
 
-    if (dynamic_cast<Circuit *>(this)) {
-        component1 = dynamic_cast<Circuit *>(this)->getAtPin(pin);
+    if (dynamic_cast<CircuitComponent *>(this)) {
+        component1 = dynamic_cast<CircuitComponent *>(this)->getAtPin(pin);
         if (component1 != nullptr) {
             return component1->setLink(0, other, otherPin, 0);
         }
         return;
     }
-    if (dynamic_cast<Circuit *>(&other)) {
-        component1 = dynamic_cast<Circuit *>(&other)->getAtPin(otherPin);
+    if (dynamic_cast<CircuitComponent *>(&other)) {
+        component1 = dynamic_cast<CircuitComponent *>(&other)->getAtPin(otherPin);
         pin2 = 0;
     } else
         component1 = &other;

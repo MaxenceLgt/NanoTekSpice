@@ -20,14 +20,17 @@
     #include "Nand.hpp"
 
 class ComponentFactory {
-    public:         
+    public: // Ctor Dtor
         ComponentFactory();
-        ~ComponentFactory() {};
-    public:
+        ComponentFactory(const ComponentFactory &obj);
+        ~ComponentFactory();
+    public: // Member functions
         bool isMappedComponent(const std::string &type);
         std::shared_ptr<nts::IComponent> createComponent(const std::string &type);
         std::unordered_map<std::string, std::function<std::shared_ptr<nts::IComponent>()>> getMap() const;
     public:
+        ComponentFactory &operator=(const ComponentFactory &obj);
+    public: // Nested Error Class
         class FactoryError : public std::exception {
             public:
                 FactoryError(std::string msg) : _msg(msg) {};
@@ -37,6 +40,6 @@ class ComponentFactory {
             private:
                 std::string _msg;
         };
-    private:
+    private: // Class variables
         std::unordered_map<std::string, std::function<std::shared_ptr<nts::IComponent>()>> _creationMap;
 };

@@ -13,6 +13,13 @@ Parsing::Parsing()
 {
 }
 
+Parsing::Parsing(const Parsing &obj)
+{
+    this->_factory = obj._factory;
+    this->outputs = obj.outputs;
+    this->inputs = obj.inputs;
+}
+
 Parsing::~Parsing()
 {
 }
@@ -75,7 +82,7 @@ void Parsing::parsingChipset(std::string ligne, std::unordered_map<std::string, 
             _map[matches[2]] = _factory.createComponent(matches[1]);
             _linkIndex[matches[2]] = nbr;
         } else {
-            _map[matches[2]] = std::make_shared<Circuit>(matches[1]);
+            _map[matches[2]] = std::make_shared<CircuitComponent>(matches[1]);
             _linkIndex[matches[2]] = nbr;
         }   
     }
@@ -108,4 +115,14 @@ std::list<std::string> Parsing::getInputs()
 std::list<std::string> Parsing::getOutputs()
 {
     return this->outputs;
+}
+
+Parsing &Parsing::operator=(const Parsing &object)
+{
+    if (this == &object)
+        return *this;
+    this->outputs = object.outputs;
+    this->inputs = object.inputs;
+    this->_factory = object._factory;
+    return *this;
 }

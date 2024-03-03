@@ -9,13 +9,14 @@
 
 #include "AComponent.hpp"
 
-class True : public AComponent {
-    public:
-        True();
-        True(const True &obj);
-        ~True();
-    public:
+class TrueComponent : public AComponent {
+    public: // CTOR DTOR
+        TrueComponent();
+        TrueComponent(const TrueComponent &obj);
+        ~TrueComponent();
+    public: // Member function override
         nts::Tristate compute(std::size_t tick) override;
-    public:
-        True &operator=(const nts::Tristate &state) override;
+    public: // operator overload
+        TrueComponent &operator=(const nts::Tristate &state) override;
+        TrueComponent &operator=(const TrueComponent &obj);
 };

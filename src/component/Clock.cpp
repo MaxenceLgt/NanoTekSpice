@@ -2,33 +2,36 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-REN-4-1-tekspice-arthur.doriel [WSL: Ubuntu]
 ** File description:
-** Clock
+** ClockComponent
 */
 
 #include "Clock.hpp"
 
-Clock::Clock() : AComponent()
+ClockComponent::ClockComponent() : AComponent()
 {
     this->_actualState = nts::Tristate::Undefined;
     this->_futurState = nts::Tristate::Undefined;
 }
 
-Clock::Clock(const Clock &obj)
+ClockComponent::ClockComponent(const ClockComponent &obj) : AComponent()
 {
     this->_links = obj._links;
+    this->_actualState = obj._actualState;
+    this->_futurState = obj._futurState;
+    this->_tick = obj._tick;
 }
 
-Clock::~Clock()
+ClockComponent::~ClockComponent()
 {
 }
 
-nts::Tristate Clock::compute(std::size_t tick)
+nts::Tristate ClockComponent::compute(std::size_t tick)
 {
     this->_tick = tick;
     return this->_actualState;
 }
 
-void Clock::simulate(std::size_t tick)
+void ClockComponent::simulate(std::size_t tick)
 {
     this->_actualState = this->_futurState;
 
@@ -39,8 +42,19 @@ void Clock::simulate(std::size_t tick)
         this->_futurState = nts::Tristate::True;
 }
 
-Clock &Clock::operator=(const nts::Tristate &state)
+ClockComponent &ClockComponent::operator=(const nts::Tristate &state)
 {
     this->_futurState = state;
+    return *this;
+}
+
+ClockComponent &ClockComponent::operator=(const ClockComponent &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_actualState = obj._actualState;
+    this->_futurState = obj._futurState;
+    this->_links = obj._links;
+    this->_tick = obj._tick;
     return *this;
 }

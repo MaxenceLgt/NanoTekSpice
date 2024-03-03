@@ -2,33 +2,45 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-REN-4-1-tekspice-arthur.doriel [WSL: Ubuntu]
 ** File description:
-** False
+** FalseComponent
 */
 
 #include "False.hpp"
 
-False::False() : AComponent()
+FalseComponent::FalseComponent() : AComponent()
 {
     this->_actualState = nts::Tristate::False;
 }
 
-False::False(const False &obj)
+FalseComponent::FalseComponent(const FalseComponent &obj) : AComponent()
 {
     this->_links = obj._links;
+    this->_actualState = obj._actualState;
+    this->_tick = obj._tick;
 }
 
-False::~False()
+FalseComponent::~FalseComponent()
 {
 }
 
-nts::Tristate False::compute(std::size_t tick)
+nts::Tristate FalseComponent::compute(std::size_t tick)
 {
     this->_tick = tick;
     return this->_actualState;
 }
 
-False &False::operator=(const nts::Tristate &state)
+FalseComponent &FalseComponent::operator=(const nts::Tristate &state)
 {
     (void)state;
-    throw AComponent::ComponentError("False : Trying to change state of false component");
+    throw AComponent::ComponentError("FalseComponent : Trying to change state of FalseComponent component");
+}
+
+FalseComponent &FalseComponent::operator=(const FalseComponent &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_actualState = obj._actualState;
+    this->_links = obj._links;
+    this->_tick = obj._tick;
+    return *this;
 }

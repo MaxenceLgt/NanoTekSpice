@@ -1,28 +1,30 @@
 /*
 ** EPITECH PROJECT, 2024
-** Output
+** OutputComponent
 ** File description:
-** Output
+** OutputComponent
 */
 
 #include <iostream>
 #include "Output.hpp"
 
-Output::Output() : AComponent()
+OutputComponent::OutputComponent() : AComponent()
 {
     this->_actualState = nts::Tristate::Undefined;
 }
 
-Output::Output(const Output &obj)
+OutputComponent::OutputComponent(const OutputComponent &obj) : AComponent()
 {
     this->_links = obj._links;
+    this->_actualState = obj._actualState;
+    this->_tick = obj._tick;
 }
 
-Output::~Output()
+OutputComponent::~OutputComponent()
 {
 }
 
-nts::Tristate Output::compute(std::size_t tick)
+nts::Tristate OutputComponent::compute(std::size_t tick)
 {
     if (this->_tick == tick || _links.size() < 1)
         return this->_actualState;
@@ -38,8 +40,18 @@ nts::Tristate Output::compute(std::size_t tick)
     return this->_actualState;
 }
 
-Output &Output::operator=(const nts::Tristate &state)
+OutputComponent &OutputComponent::operator=(const nts::Tristate &state)
 {
     (void)state;
     throw AComponent::ComponentError("True : Trying to change state of true component");
+}
+
+OutputComponent &OutputComponent::operator=(const OutputComponent &obj)
+{
+    if (this == &obj)
+        return *this;
+    this->_actualState = obj._actualState;
+    this->_links = obj._links;
+    this->_tick = obj._tick;
+    return *this;
 }

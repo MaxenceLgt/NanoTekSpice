@@ -14,14 +14,17 @@
     #include "Circuit.hpp"
 
 class Shell {
-    public:
+    public: // Ctor Dtor
         Shell();
+        Shell(const Shell &obj);
         ~Shell();
-    public:
+    public: // Member function
         void run(const std::string file);
         void computeComponents();
-    private:
-        Circuit _mainCircuit;
+    public: // Operator overload
+        Shell &operator=(const Shell &obj);
+    private: // Class variables
+        CircuitComponent _mainCircuit;
 };
 
 static std::atomic_flag _flag = ATOMIC_FLAG_INIT;
